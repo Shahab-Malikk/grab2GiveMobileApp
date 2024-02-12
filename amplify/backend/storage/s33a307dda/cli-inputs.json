@@ -1,0 +1,18 @@
+{
+  "resourceName": "s33a307dda",
+  "policyUUID": "3a307dda",
+  "bucketName": "grab2give3204924366f4415c94e2fbef30a1e01e",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

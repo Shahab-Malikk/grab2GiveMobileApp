@@ -1,0 +1,146 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type Users @model @auth(rules: [{ allow: public }]) {
+  id: String! @primaryKey
+  userRole: String!
+  email: AWSEmail
+  hotels: Hotel @hasOne(fields: ["id"])
+  ngos: Ngo @hasOne(fields: ["id"])
+  volunteers: Volunteer @hasOne(fields: ["id"])
+}
+
+type Hotel @model @auth(rules: [{ allow: public }]) {
+  id: String! @primaryKey
+  name: String!
+  logo: String
+  email: AWSEmail
+  resturantType: String
+  contactNumber: Int
+  city: String
+  zipCode: Int
+  address: String
+  operationalDays: String
+  openingHours: String
+  closingHours: String
+  description: String
+  userId: String @index(name: "byUser")
+  user: Users @belongsTo(fields: ["userId"])
+  ngos: [NgoHotel] @hasMany(indexName: "byHotel", fields: ["id"])
+  notifications: [Notification] @hasMany(indexName: "byHotel", fields: ["id"])
+  food: [Food] @hasMany(indexName: "byHotel", fields: ["id"])
+  reservationRequests: [ReservationRequest]
+    @hasMany(indexName: "byHotel", fields: ["id"])
+}
+
+type Ngo @model @auth(rules: [{ allow: public }]) {
+  id: String! @primaryKey
+  name: String!
+  logo: String
+  email: AWSEmail
+  contactNumber: Int
+  city: String
+  zipCode: Int
+  address: String
+  operationalDays: String
+  openingHours: String
+  closingHours: String
+  description: String
+  userId: String @index(name: "byUser")
+  user: Users @belongsTo(fields: ["userId"])
+  hotels: [NgoHotel] @hasMany(indexName: "byNgo", fields: ["id"])
+  notifications: [Notification] @hasMany(indexName: "byNgo", fields: ["id"])
+  volunteers: [VolunteerNgo] @hasMany(indexName: "byNgo", fields: ["id"])
+  reservationRequests: [ReservationRequest]
+    @hasMany(indexName: "byNgo", fields: ["id"])
+}
+
+type NgoHotel @model @auth(rules: [{ allow: public }]) {
+  id: String! @primaryKey
+  hotelID: String @index(name: "byHotel")
+  hotel: Hotel @belongsTo(fields: ["hotelID"])
+  ngoID: String @index(name: "byNgo")
+  ngo: Ngo @belongsTo(fields: ["ngoID"])
+}
+
+type Volunteer @model @auth(rules: [{ allow: public }]) {
+  id: String! @primaryKey
+  name: String!
+  email: AWSEmail
+  image: String
+  contactNumber: Int
+  city: String
+  zipCode: Int
+  address: String
+  availableDays: String
+  availableHours: String
+  hobbies: String
+  userId: String @index(name: "byUser")
+  user: Users @belongsTo(fields: ["userId"])
+  ngos: [VolunteerNgo] @hasMany(indexName: "byVolunteer", fields: ["id"])
+  notifications: [Notification]
+    @hasMany(indexName: "byVolunteer", fields: ["id"])
+}
+
+type VolunteerNgo @model @auth(rules: [{ allow: public }]) {
+  id: String! @primaryKey
+  volunteerID: String @index(name: "byVolunteer")
+  volunteer: Volunteer @belongsTo(fields: ["volunteerID"])
+  ngoID: String @index(name: "byNgo")
+  ngo: Ngo @belongsTo(fields: ["ngoID"])
+}
+
+type Food @model @auth(rules: [{ allow: public }]) {
+  id: String! @primaryKey
+  name: String!
+  foodStatus: String
+  quantity: Int
+  expiryDate: AWSDate
+  pickedBy: String
+  hotelId: String @index(name: "byHotel")
+  hotel: Hotel @belongsTo(fields: ["hotelId"])
+  categoryId: String @index(name: "byCategory")
+  category: Category @belongsTo(fields: ["categoryId"])
+  reservationRequests: [ReservationRequest]
+    @hasMany(indexName: "byFood", fields: ["id"])
+}
+
+type Category @model @auth(rules: [{ allow: public }]) {
+  id: String! @primaryKey
+  name: String!
+  picture: String
+  foods: [Food] @hasMany(indexName: "byCategory", fields: ["id"])
+}
+
+type ReservationRequest @model @auth(rules: [{ allow: public }]) {
+  id: String! @primaryKey
+  hotelId: String @index(name: "byHotel")
+  hotel: Hotel @belongsTo(fields: ["hotelId"])
+  ngoId: String @index(name: "byNgo")
+  ngo: Ngo @belongsTo(fields: ["ngoId"])
+  foodId: String @index(name: "byFood")
+  food: Food @belongsTo(fields: ["foodId"])
+  status: String!
+  ngoAssociation: Ngo @belongsTo(fields: ["ngoId"])
+}
+
+type Notification @model @auth(rules: [{ allow: public }]) {
+  id: String! @primaryKey
+  hotelId: String @index(name: "byHotel")
+  hotel: Hotel @belongsTo(fields: ["hotelId"])
+  ngoId: String @index(name: "byNgo")
+  ngo: Ngo @belongsTo(fields: ["ngoId"])
+  volunteerId: String @index(name: "byVolunteer")
+  volunteer: Volunteer @belongsTo(fields: ["volunteerId"])
+  status: String!
+  content: String!
+  expiryDate: AWSTimestamp
+}
