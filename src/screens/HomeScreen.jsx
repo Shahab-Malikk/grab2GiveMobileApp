@@ -3,6 +3,7 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import Banner from "../components/Overview/Banner";
 import Stats from "../components/Overview/Stats";
+import RecentPickups from "../components/Overview/RecentPickups";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -10,6 +11,7 @@ const HomeScreen = () => {
     <SafeAreaView className="flex-1 bg-bgLight relative">
       <Banner />
       <Stats />
+      <RecentPickups />
     </SafeAreaView>
   );
 };

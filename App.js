@@ -6,6 +6,10 @@ import { TailwindProvider } from "tailwindcss-react-native";
 import { Amplify } from "aws-amplify";
 import { DataStore } from "@aws-amplify/datastore";
 import { Hotel } from "./src/models";
+import {
+  TapGestureHandler,
+  RotationGestureHandler,
+} from "react-native-gesture-handler";
 import amplifyconfig from "./src/amplifyconfiguration.json";
 import MainStackContainer from "./src/navigation/MainStackContainer";
 Amplify.configure(amplifyconfig);
@@ -23,7 +27,7 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <TailwindProvider>
-        <SafeAreaView className="flex-1 bg-lightGrey">
+        <SafeAreaView className="flex-1">
           <StatusBar style="auto" />
           <MainStackContainer />
         </SafeAreaView>
