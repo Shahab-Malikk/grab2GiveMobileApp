@@ -1,11 +1,12 @@
-import { View, Text } from "react-native";
+import { View, Text, SafeAreaView } from "react-native";
 import React from "react";
+import AllUpComingPickups from "../components/Deliveries/AllUpComingPickups";
 
 const DeliveriesScreen = () => {
   return (
-    <View>
-      <Text>DeliveriesScreen</Text>
-    </View>
+    <SafeAreaView className="flex-1 px-4 bg-bgLight">
+      <AllUpComingPickups />
+    </SafeAreaView>
   );
 };
 
