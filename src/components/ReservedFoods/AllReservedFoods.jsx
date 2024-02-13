@@ -36,7 +36,7 @@ const AllReservedFoods = () => {
         Here are all your upcoming pickups.
       </Text>
       <View className="flex-1">
-        <ScrollView className="mt-4 ">
+        <ScrollView className="mt-7">
           {reservedFoods.map((item) => (
             <ReservedFoodCard
               ngoName={item.ngoName}

@@ -18,7 +18,7 @@ const AllNgos = () => {
     },
   ];
   return (
-    <View className="px-4">
+    <View className="px-4 py-4">
       <Text className="text-lg font-bold text-base800">Ngos</Text>
       <Text className="text-lightGrey mt-2">
         Here is list if ngos you can connect with.

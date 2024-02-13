@@ -3,9 +3,9 @@ import React from "react";
 
 const NgoCard = () => {
   return (
-    <View className="flex flex-col items-center bg-white shadow-md border-2 border-gray-300 py-8 px-8 rounded-md mb-4">
+    <View className="flex flex-col items-center bg-white shadow-md border-2 border-gray-300 py-4 px-3 rounded-md mb-4">
       <Image
-        source={require("../../../assets/ngo2.avif")}
+        source={require("../../../assets/eidhi.png")}
         className="w-24 h-24 rounded-full"
       />
       <View className="flex-1 flex-col">
