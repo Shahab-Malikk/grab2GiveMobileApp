@@ -21,7 +21,7 @@ const AllNgos = () => {
     <View className="px-4 py-4">
       <Text className="text-lg font-bold text-base800">Ngos</Text>
       <Text className="text-lightGrey mt-2">
-        Here is list if ngos you can connect with.
+        Here is list of ngos you can connect with.
       </Text>
       <View className="flex-1">
         <ScrollView className="mt-4 ">

@@ -1,13 +1,13 @@
 import { View, Text, SafeAreaView } from "react-native";
 import React from "react";
-import ProfileMain from "../components/Profile/ProfileMain";
+import PasswordNSecurity from "../components/Profile/PasswordNSecurity";
 
-const ProfileScreen = () => {
+const UpdatePasswordScreen = () => {
   return (
     <SafeAreaView className="flex-1 px-4 py-4 bg-bgLight">
-      <ProfileMain />
+      <PasswordNSecurity />
     </SafeAreaView>
   );
 };
 
-export default ProfileScreen;
+export default UpdatePasswordScreen;
