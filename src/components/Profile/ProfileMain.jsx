@@ -1,8 +1,10 @@
 import { View, Text, Pressable, Image } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const ProfileMain = () => {
+  const navigation = useNavigation();
   return (
     <View className="flex-1 flex flex-col mt-12 px-4">
       <View className="flex flex-col justify-center items-center">
@@ -15,13 +17,20 @@ const ProfileMain = () => {
         <Text className="text-lg font-bold mt-2">Arsalan</Text>
       </View>
       <View className="flex flex-1 flex-col justify-start items-start mt-10">
-        <Pressable className="flex items-center w-[100%] px-6 pb-2 flex-row border-b-2 border-gray-300 border-spacing-6 ">
+        <Pressable
+          className="flex items-center w-[100%] px-6 pb-2 flex-row border-b-2 border-gray-300 border-spacing-6 "
+          onPress={() => navigation.navigate("PersonalInfo")}
+        >
           <Ionicons name="person-outline" size={24} color="black" />
           <Text className="text-lg font-semibold ml-4">
             Personal Information
           </Text>
         </Pressable>
-        <Pressable className="flex items-center w-[100%] mt-4 px-6 py-2 flex-row border-b-2 border-gray-300 border-spacing-6">
+
+        <Pressable
+          className="flex items-center w-[100%] mt-4 px-6 py-2 flex-row border-b-2 border-gray-300 border-spacing-6"
+          onPress={() => navigation.navigate("UpdatePassword")}
+        >
           <Ionicons name="settings-outline" size={24} color="black" />
           <Text className="text-lg font-semibold ml-4">
             Password & Security{" "}
