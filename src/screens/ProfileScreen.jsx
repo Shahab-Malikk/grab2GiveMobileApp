@@ -1,11 +1,12 @@
-import { View, Text } from "react-native";
+import { View, Text, SafeAreaView } from "react-native";
 import React from "react";
+import ProfileMain from "../components/Profile/ProfileMain";
 
 const ProfileScreen = () => {
   return (
-    <View>
-      <Text>ProfileScreen</Text>
-    </View>
+    <SafeAreaView className="flex-1 px-4 py-4 bg-bgLight">
+      <ProfileMain />
+    </SafeAreaView>
   );
 };
 
