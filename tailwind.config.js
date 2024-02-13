@@ -29,6 +29,7 @@ module.exports = {
         modal: "rgba(0,0,0,0.5)",
         base800: "#2D3648",
         test: "#F7F7F7",
+        base300: "#E2E7F0",
       },
       backgroundImage: {
         "hero-pattern": "url('https://tailwindcss.com/img/card-top.jpg')",
