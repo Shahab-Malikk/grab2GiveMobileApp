@@ -18,7 +18,7 @@ const ReservedFoodCard = () => {
           <Text className=" text-lightGrey text-xs">To : </Text>
           <Text className="text-xs">Al Khidmat Foundation Taxila</Text>
         </View>
-        <View className="p-1 bg-[#edf0f7] rounded-sm flex w-40 flex-row">
+        <View className="p-1 bg-[#edf0f7] rounded-sm flex w-44 flex-row">
           <Text className=" text-darkGrey">Date :</Text>
           <Text>10 June, 2023</Text>
         </View>
