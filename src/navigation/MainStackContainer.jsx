@@ -7,6 +7,9 @@ import LoginScreen from "../screens/LoginScreen";
 import PersonalInformationScreen from "../screens/PersonalInformationScreen";
 import UpdatePasswordScreen from "../screens/UpdatePasswordScreen";
 import PreOnboardingScreen from "../screens/PreOnboardingScreen";
+import OnBoardingScreen from "../screens/OnBoardingScreen";
+import PostOnboardingScreen from "../screens/PostOnboardingScreen";
+import AboutScreen from "../screens/AboutScreen";
 
 import TabContainer from "./TabContainer";
 
@@ -15,7 +18,13 @@ const Stack = createStackNavigator();
 const MainStackContainer = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="About">
+        <Stack.Screen
+          name="About"
+          component={AboutScreen}
+          options={{ headerShown: false }}
+        />
+
         <Stack.Screen
           name="Home"
           component={TabContainer}
@@ -44,6 +53,16 @@ const MainStackContainer = () => {
         <Stack.Screen
           name="PreOnboarding"
           component={PreOnboardingScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Onboarding"
+          component={OnBoardingScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PostOnboarding"
+          component={PostOnboardingScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
