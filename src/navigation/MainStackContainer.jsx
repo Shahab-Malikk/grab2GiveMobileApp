@@ -6,6 +6,7 @@ import SignupScreen from "../screens/SignupScreen";
 import LoginScreen from "../screens/LoginScreen";
 import PersonalInformationScreen from "../screens/PersonalInformationScreen";
 import UpdatePasswordScreen from "../screens/UpdatePasswordScreen";
+import PreOnboardingScreen from "../screens/PreOnboardingScreen";
 
 import TabContainer from "./TabContainer";
 
@@ -38,6 +39,11 @@ const MainStackContainer = () => {
         <Stack.Screen
           name="UpdatePassword"
           component={UpdatePasswordScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PreOnboarding"
+          component={PreOnboardingScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
