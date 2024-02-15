@@ -41,12 +41,12 @@ const AllNgos = () => {
       <Text className="text-lightGrey mt-2">
         Here is list of ngos you can connect with.
       </Text>
-      <View className="flex-1 flex-row bg-[#e2e7f0] py-1 px-1 mt-4">
+      <View className="flex-1 flex-row bg-[#e2e7f0] rounded py-1 px-2 mt-4">
         <Pressable
           style={{
             backgroundColor: isExploringNgosTab ? "white" : "transparent",
             padding: 10,
-            borderRadius: 10,
+            borderRadius: 8,
           }}
           className="flex-1 items-center justify-center"
           onPress={toggleTab}

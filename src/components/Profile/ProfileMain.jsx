@@ -22,9 +22,7 @@ const ProfileMain = () => {
           onPress={() => navigation.navigate("PersonalInfo")}
         >
           <Ionicons name="person-outline" size={24} color="black" />
-          <Text className="text-lg font-semibold ml-4">
-            Personal Information
-          </Text>
+          <Text className="text-lg ml-4">Personal Information</Text>
         </Pressable>
 
         <Pressable
@@ -32,9 +30,7 @@ const ProfileMain = () => {
           onPress={() => navigation.navigate("UpdatePassword")}
         >
           <Ionicons name="settings-outline" size={24} color="black" />
-          <Text className="text-lg font-semibold ml-4">
-            Password & Security{" "}
-          </Text>
+          <Text className="text-lg ml-4">Password & Security </Text>
         </Pressable>
       </View>
 

@@ -2,8 +2,11 @@ import { View, Text, TextInput, Pressable, ScrollView } from "react-native";
 import React, { useState } from "react";
 import SelectDropdown from "react-native-select-dropdown";
 import CheckBox from "react-native-check-box";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const PersonalInformation = () => {
+  const navigation = useNavigation();
   const [isFieldsDisabled, setIsFieldsDisabled] = useState(true);
   const [name, setName] = useState("John Doe");
   const [phone, setPhone] = useState("1234567890");
@@ -49,13 +52,21 @@ const PersonalInformation = () => {
 
   return (
     <View className="px-4 py-4 flex-1">
+      <Pressable
+        className="mb-4"
+        onPress={() => {
+          navigation.goBack();
+        }}
+      >
+        <Ionicons name="arrow-back-circle-outline" size={44} color="black" />
+      </Pressable>
       <Text className="text-lg font-bold text-base800">
         Personal Information
       </Text>
       <Text className="text-lightGrey mt-2">
         Update your personal information here.
       </Text>
-      <View className="flex flex-row justify-end  mt-4">
+      <View className="flex flex-row justify-end  mt-4 ">
         <Pressable
           onPress={enableFields}
           className="flex bg-black flex-row py-2 px-10 rounded-md  mr-4 items-center"
@@ -130,7 +141,7 @@ const PersonalInformation = () => {
               Availablity Prefrences :{" "}
             </Text>
             <View className=" flex flex-row gap-3 flex-wrap">
-              <View className="py-1 px-1  bg-secondary w-40 flex self-start flex-row">
+              <View className="py-1 px-1  bg-secondary w-[45%] flex self-start flex-row">
                 <CheckBox
                   onClick={() => handleCheckboxToggle("Monday")}
                   isChecked={availablityPrefrences.includes("Monday")}
@@ -150,7 +161,7 @@ const PersonalInformation = () => {
                   disabled={isFieldsDisabled}
                 />
               </View>
-              <View className="py-1 px-3 bg-secondary w-40 flex self-start flex-row">
+              <View className="py-1 px-3 bg-secondary w-[45%] flex self-start flex-row">
                 <CheckBox
                   onClick={() => handleCheckboxToggle("Tuesday")}
                   isChecked={availablityPrefrences.includes("Tuesday")}
@@ -164,7 +175,7 @@ const PersonalInformation = () => {
                   disabled={isFieldsDisabled}
                 />
               </View>
-              <View className="py-1 px-3 bg-secondary w-40 flex self-start flex-row">
+              <View className="py-1 px-3 bg-secondary w-[45%] flex self-start flex-row">
                 <CheckBox
                   onClick={() => handleCheckboxToggle("Wednesday")}
                   isChecked={availablityPrefrences.includes("Wednesday")}
@@ -178,7 +189,7 @@ const PersonalInformation = () => {
                   disabled={isFieldsDisabled}
                 />
               </View>
-              <View className="py-1 px-3 bg-secondary w-40 flex self-start flex-row">
+              <View className="py-1 px-3 bg-secondary w-[45%] flex self-start flex-row">
                 <CheckBox
                   onClick={() => handleCheckboxToggle("Thursday")}
                   isChecked={availablityPrefrences.includes("Thursday")}
@@ -192,7 +203,7 @@ const PersonalInformation = () => {
                   disabled={isFieldsDisabled}
                 />
               </View>
-              <View className="py-1 px-3 bg-secondary w-40 flex self-start flex-row">
+              <View className="py-1 px-3 bg-secondary w-[45%] flex self-start flex-row">
                 <CheckBox
                   onClick={() => handleCheckboxToggle("Firday")}
                   isChecked={availablityPrefrences.includes("Firday")}
@@ -206,7 +217,7 @@ const PersonalInformation = () => {
                   disabled={isFieldsDisabled}
                 />
               </View>
-              <View className="py-1 px-3 bg-secondary w-40 flex self-start flex-row">
+              <View className="py-1 px-3 bg-secondary w-[45%] flex self-start flex-row">
                 <CheckBox
                   onClick={() => handleCheckboxToggle("Saturday")}
                   isChecked={availablityPrefrences.includes("Saturday")}
@@ -220,7 +231,7 @@ const PersonalInformation = () => {
                   disabled={isFieldsDisabled}
                 />
               </View>
-              <View className="py-1 px-3 bg-secondary w-40 flex self-start flex-row">
+              <View className="py-1 px-3 bg-secondary w-[45%] flex self-start flex-row">
                 <CheckBox
                   onClick={() => handleCheckboxToggle("Sunday")}
                   isChecked={availablityPrefrences.includes("Sunday")}

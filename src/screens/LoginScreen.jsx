@@ -1,21 +1,17 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, SafeAreaView } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { TailwindProvider } from "tailwindcss-react-native";
+import Banner from "../components/Login/Banner";
+import LoginForm from "../components/Login/LoginForm";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
   return (
-    <View className="flex-1 justify-center items-center bg-amber-200">
-      <Text>LoginScreen</Text>
-      <Pressable
-        onPress={() => {
-          navigation.navigate("Home");
-        }}
-      >
-        <Text>Go to Home</Text>
-      </Pressable>
-    </View>
+    <SafeAreaView className="flex-1 px-4 bg-bgLight">
+      <Banner />
+      <LoginForm />
+    </SafeAreaView>
   );
 };
 

@@ -38,15 +38,18 @@ const TabContainer = () => {
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: "tomato",
+        tabBarActiveTintColor: "#1A202C",
         tabBarInactiveTintColor: "gray",
         tabBarStyle: {
-          backgroundColor: "black",
-          borderTopColor: "black",
+          backgroundColor: "white",
+          borderTopColor: "#D9D9D9",
           marginBottom: 10,
           width: "90%",
           marginLeft: "5%",
           borderRadius: 10,
+          borderWidth: 1,
+          borderColor: "#D9D9D9",
+          height: 56,
         },
       })}
     >
