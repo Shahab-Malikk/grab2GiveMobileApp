@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import SignupScreen from "../screens/SignupScreen";
@@ -12,13 +12,14 @@ import PostOnboardingScreen from "../screens/PostOnboardingScreen";
 import AboutScreen from "../screens/AboutScreen";
 
 import TabContainer from "./TabContainer";
+import { useUserData } from "../context/userDataContext";
 
 const Stack = createStackNavigator();
 
 const MainStackContainer = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Onboarding">
         <Stack.Screen
           name="About"
           component={AboutScreen}

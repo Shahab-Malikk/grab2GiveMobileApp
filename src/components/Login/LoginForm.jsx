@@ -20,7 +20,7 @@ const LoginForm = () => {
       });
       console.log(isSignedIn, nextStep);
 
-      navigation.navigate("Home");
+      navigation.navigate("Onboarding");
     } catch (e) {
       console.log(e);
     }

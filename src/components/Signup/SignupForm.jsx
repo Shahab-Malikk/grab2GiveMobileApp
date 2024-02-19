@@ -2,6 +2,8 @@ import { View, Text, TextInput, Pressable } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { signUp } from "aws-amplify/auth";
+import { DataStore } from "@aws-amplify/datastore";
+import { Users } from "../../models";
 
 const SignupForm = () => {
   const [email, setEmail] = useState("");
@@ -16,6 +18,14 @@ const SignupForm = () => {
         password: password,
       });
       console.log(isSignUpComplete, userId, nextStep);
+      const user = await DataStore.save(
+        new Users({
+          id: userId,
+          email: email,
+          userRole: "volunteer",
+        })
+      );
+
       navigation.navigate("Login");
     } catch (e) {
       console.log(e);
