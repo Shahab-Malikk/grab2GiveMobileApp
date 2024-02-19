@@ -83,34 +83,34 @@ const PersonalInformation = () => {
       <View className="flex-1 flex-col mt-8">
         <ScrollView>
           <View className="flex flex-col">
-            <Text className="text-sm text-base800">Name : </Text>
+            <Text className="text-sm text-base800">Name </Text>
             <TextInput
-              className="border-b border-base300 mt-1"
+              className="border-2 border-base300 mt-1 py-2 px-2 rounded-lg "
               onChange={(e) => setName(e.target.value)}
               value={name}
               editable={!isFieldsDisabled}
             />
           </View>
           <View className="flex flex-col mt-4">
-            <Text className="text-sm text-base800">Phone : </Text>
+            <Text className="text-sm text-base800">Phone</Text>
             <TextInput
-              className="border-b border-base300 mt-1"
+              className="border-2 border-base300 mt-1 py-2 px-2 rounded-lg "
               onChange={(e) => setPhone(e.target.value)}
               value={phone}
               editable={!isFieldsDisabled}
             />
           </View>
           <View className="flex flex-col mt-4">
-            <Text className="text-sm text-base800">City : </Text>
+            <Text className="text-sm text-base800">City</Text>
             <TextInput
-              className="border-b border-base300 mt-1"
+              className="border-2 border-base300 mt-1 py-2 px-2 rounded-lg "
               onChange={(e) => setCity(e.target.value)}
               value={city}
               editable={!isFieldsDisabled}
             />
           </View>
           <View className="flex flex-col mt-4">
-            <Text className="text-sm text-base800">Profession : </Text>
+            <Text className="text-sm text-base800">Profession</Text>
             <SelectDropdown
               data={professionOptions}
               onSelect={(selectedItem, index) => {
@@ -138,7 +138,7 @@ const PersonalInformation = () => {
           </View>
           <View className="flex flex-col mt-4">
             <Text className="text-sm text-base800 mb-4">
-              Availablity Prefrences :{" "}
+              Availablity Prefrences
             </Text>
             <View className=" flex flex-row gap-3 flex-wrap">
               <View className="py-1 px-1  bg-secondary w-[45%] flex self-start flex-row">

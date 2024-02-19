@@ -36,7 +36,7 @@ const AboutScreen = () => {
       onSkip={() => {
         navigation.navigate("Login");
       }}
-      titleStyles={{ color: "#000", fontSize: 28, fontWeight: "500" }}
+      titleStyles={{ color: "#000", fontSize: 22, fontWeight: "700" }}
     />
   );
 };

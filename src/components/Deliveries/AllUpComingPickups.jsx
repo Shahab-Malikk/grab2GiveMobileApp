@@ -31,13 +31,13 @@ const AllUpComingPickups = () => {
   ];
 
   return (
-    <View className="px-4">
+    <View className="px-4 py-4">
       <Text className="text-lg font-bold text-base800">Upcoming Pickups</Text>
       <Text className="text-lightGrey mt-2">
         Here are all your upcoming pickups.
       </Text>
-      <View className="flex-1">
-        <ScrollView className="mt-4">
+      <View className="flex-1 mb-8">
+        <ScrollView className="mt-4 mb-10">
           {recentPickups.map((item) => (
             <PickupCard
               ngoName={item.ngoName}

@@ -14,13 +14,13 @@ const LoginForm = () => {
     <View className="flex flex-col mt-6 px-4">
       <View className="flex flex-col">
         <TextInput
-          className="border-2 border-base300 mt-1 py-2 px-2 roundedm text-base"
+          className="border-2 border-base300 mt-1 py-2 px-2 rounded-lg text-base"
           onChange={(e) => setEmail(e.target.value)}
           value={email}
           placeholder="Enter Your Email"
         />
         <TextInput
-          className="border-2 border-base300 py-2 px-2 roundedm text-base mt-6"
+          className="border-2 border-base300 py-2 px-2 rounded-lg text-base mt-6"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
           placeholder="Enter Your Password"
