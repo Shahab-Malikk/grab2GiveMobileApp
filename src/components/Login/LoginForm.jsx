@@ -1,27 +1,42 @@
 import { View, Text, TextInput, Pressable } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { signIn } from "aws-amplify/auth";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
 
-  const handleLogin = () => {
-    navigation.navigate("Home");
+  const handleLogin = async () => {
+    try {
+      console.log(email, password);
+      const { isSignedIn, nextStep } = await signIn({
+        username: email,
+        password: password,
+        options: {
+          authFlowType: "USER_PASSWORD_AUTH",
+        },
+      });
+      console.log(isSignedIn, nextStep);
+
+      navigation.navigate("Home");
+    } catch (e) {
+      console.log(e);
+    }
   };
   return (
     <View className="flex flex-col mt-6 px-4">
       <View className="flex flex-col">
         <TextInput
           className="border-2 border-base300 mt-1 py-2 px-2 rounded-lg text-base"
-          onChange={(e) => setEmail(e.target.value)}
+          onChangeText={(value) => setEmail(value)}
           value={email}
           placeholder="Enter Your Email"
         />
         <TextInput
           className="border-2 border-base300 py-2 px-2 rounded-lg text-base mt-6"
-          onChange={(e) => setPassword(e.target.value)}
+          onChangeText={(value) => setPassword(value)}
           value={password}
           placeholder="Enter Your Password"
           type="password"
