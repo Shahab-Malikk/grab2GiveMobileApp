@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext } from "react";
 import { useSelector } from "react-redux";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { DataStore } from "@aws-amplify/datastore";
-import { Volunteer } from "../models";
+import { Volunteer, Ngo } from "../models";
 
 const UserDataContext = createContext();
 
@@ -20,6 +20,7 @@ export const UserDataProvider = ({ children }) => {
   });
   const [userId, setUserId] = useState(null);
   const [userName, setUserName] = useState(null);
+  const [ngos, setNgos] = useState([]);
 
   async function handleFetchUserAttributes() {
     try {
@@ -32,10 +33,17 @@ export const UserDataProvider = ({ children }) => {
   }
   const getUserData = async () => {
     const userAttributes = await fetchUserAttributes();
+    setUserId(userAttributes.sub);
     const userId = userAttributes.sub;
     const userData = await DataStore.query(Volunteer, userId);
     console.log(userData);
     setUserName(userData.name);
+  };
+
+  const getNgosFromDb = async () => {
+    const ngos = await DataStore.query(Ngo);
+    console.log(ngos);
+    setNgos(ngos);
   };
 
   return (
@@ -47,6 +55,8 @@ export const UserDataProvider = ({ children }) => {
         userId,
         getUserData,
         userName,
+        getNgosFromDb,
+        ngos,
       }}
     >
       {children}

@@ -1,9 +1,11 @@
 import { View, Text, ScrollView, Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
 import NgoCard from "./NgoCard";
+import { useUserData } from "../../context/userDataContext";
 
 const AllNgos = () => {
-  const ngos = [
+  const { ngos } = useUserData();
+  const hardCodedNgos = [
     {
       ngoName: "Eidhi ",
       location: "Taxila",
@@ -26,14 +28,14 @@ const AllNgos = () => {
   const toggleTab = () => {
     setIsExploringNgosTab((prev) => !prev);
     if (isExploringNgosTab) {
-      setFilteredNgos(ngos.filter((item) => item.connected === true));
+      setFilteredNgos(hardCodedNgos.filter((item) => item.connected === true));
     } else {
-      setFilteredNgos(ngos.filter((item) => item.connected === false));
+      setFilteredNgos(hardCodedNgos.filter((item) => item.connected === false));
     }
   };
 
   useEffect(() => {
-    setFilteredNgos(ngos.filter((item) => item.connected === false));
+    setFilteredNgos(hardCodedNgos.filter((item) => item.connected === false));
   }, []);
   return (
     <View className="px-4 py-4">
@@ -68,8 +70,8 @@ const AllNgos = () => {
       <View className="flex-1">
         <ScrollView className="mt-4 ">
           <View className="flex flex-row basis-1/2 flex-wrap justify-between">
-            {filteredNgos.map((item) => (
-              <NgoCard ngoName={item.ngoName} location={item.location} />
+            {ngos.map((item) => (
+              <NgoCard ngo={item} key={item.id} />
             ))}
           </View>
         </ScrollView>
