@@ -1,6 +1,8 @@
 import React, { createContext, useState, useContext } from "react";
 import { useSelector } from "react-redux";
 import { fetchUserAttributes } from "aws-amplify/auth";
+import { DataStore } from "@aws-amplify/datastore";
+import { Volunteer } from "../models";
 
 const UserDataContext = createContext();
 
@@ -17,6 +19,7 @@ export const UserDataProvider = ({ children }) => {
     availiablityPrefrences: [],
   });
   const [userId, setUserId] = useState(null);
+  const [userName, setUserName] = useState(null);
 
   async function handleFetchUserAttributes() {
     try {
@@ -27,6 +30,13 @@ export const UserDataProvider = ({ children }) => {
       console.log(error);
     }
   }
+  const getUserData = async () => {
+    const userAttributes = await fetchUserAttributes();
+    const userId = userAttributes.sub;
+    const userData = await DataStore.query(Volunteer, userId);
+    console.log(userData);
+    setUserName(userData.name);
+  };
 
   return (
     <UserDataContext.Provider
@@ -35,6 +45,8 @@ export const UserDataProvider = ({ children }) => {
         setOnBoardingFormData,
         handleFetchUserAttributes,
         userId,
+        getUserData,
+        userName,
       }}
     >
       {children}

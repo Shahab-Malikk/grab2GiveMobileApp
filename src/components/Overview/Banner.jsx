@@ -1,7 +1,9 @@
 import { View, Text, Image } from "react-native";
 import React from "react";
+import { useUserData } from "../../context/userDataContext";
 
 const Banner = () => {
+  const { userName } = useUserData();
   return (
     <>
       <View className="py-6 h-44 px-10 bg-[#1e1e1e]">
@@ -12,7 +14,9 @@ const Banner = () => {
           />
           <View className="ml-4 flex flex-col">
             <Text className="text-white">Welcome</Text>
-            <Text className="text-white text-2xl font-semibold ">Arsalan</Text>
+            <Text className="text-white text-2xl font-semibold ">
+              {userName}
+            </Text>
           </View>
         </View>
       </View>
