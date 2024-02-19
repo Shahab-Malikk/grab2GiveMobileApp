@@ -1,17 +1,21 @@
 import { View, Text, Pressable, TextInput } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   nextStep,
   incrementFormProgress,
 } from "../../store/slices/OnBoardingFormSlice";
+import { useUserData } from "../../context/userDataContext";
 
 const PersonalInformation = () => {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  const { onBoardingFormData, setOnBoardingFormData } = useUserData();
+  const [name, setName] = useState(onBoardingFormData.name);
+  const [phone, setPhone] = useState(onBoardingFormData.phone);
   const dispatch = useDispatch();
 
   const handleNext = () => {
+    setOnBoardingFormData((prevData) => ({ ...prevData, name, phone }));
+
     dispatch(nextStep());
     dispatch(incrementFormProgress());
   };
@@ -22,7 +26,7 @@ const PersonalInformation = () => {
         <Text className="text-base font-bold text-base800 mb-3">Name </Text>
         <TextInput
           className="border-2 border-base300 py-2 px-2 rounded-lg text-base "
-          onChange={(e) => setName(e.target.value)}
+          onChangeText={(value) => setName(value)}
           value={name}
         />
       </View>
@@ -32,7 +36,7 @@ const PersonalInformation = () => {
         </Text>
         <TextInput
           className="border-2 border-base300 py-2 px-2 rounded-lg text-base "
-          onChange={(e) => setPhone(e.target.value)}
+          onChangeText={(value) => setPhone(value)}
           value={phone}
         />
       </View>

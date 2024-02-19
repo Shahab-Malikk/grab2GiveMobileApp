@@ -1,5 +1,5 @@
 import { View, Text, Pressable, TextInput } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   incrementFormProgress,
@@ -7,14 +7,17 @@ import {
 } from "../../store/slices/OnBoardingFormSlice";
 import CheckBox from "react-native-check-box";
 import { useNavigation } from "@react-navigation/native";
+import { useUserData } from "../../context/userDataContext";
+import { DataStore } from "@aws-amplify/datastore";
+import { Volunteer } from "../../models";
 
 const AvailablityPrefrences = () => {
+  const { onBoardingFormData, setOnBoardingFormData, userId } = useUserData();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [availablityPrefrences, setAvailablityPrefrences] = useState([
-    "Monday",
-    "Tuesday",
-  ]);
+  const [availablityPrefrences, setAvailablityPrefrences] = useState(
+    onBoardingFormData.availiablityPrefrences
+  );
 
   const handleCheckboxToggle = (itemValue) => {
     if (availablityPrefrences.includes(itemValue)) {
@@ -26,10 +29,39 @@ const AvailablityPrefrences = () => {
     }
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
+    setOnBoardingFormData((prevData) => ({
+      ...prevData,
+      availiablityPrefrences: availablityPrefrences,
+    }));
+    console.log(onBoardingFormData);
+    try {
+      const availiablityPrefrencesStr = availablityPrefrences.toString();
+      console.log(availiablityPrefrencesStr);
+      const volunteerData = {
+        id: userId,
+        name: onBoardingFormData.name,
+        contactNumber: parseInt(onBoardingFormData.phone),
+        city: onBoardingFormData.city,
+        hobbies: onBoardingFormData.profession,
+        availableDays: availiablityPrefrencesStr,
+        userId: userId,
+      };
+
+      // DataStore.clear();
+
+      await DataStore.save(new Volunteer(volunteerData));
+    } catch (e) {
+      console.log(e);
+    }
     dispatch(nextStep());
     dispatch(incrementFormProgress());
   };
+
+  useEffect(() => {
+    console.log(onBoardingFormData);
+    console.log(userId);
+  }, [onBoardingFormData]);
 
   return (
     <View className="mt-12">
@@ -46,15 +78,12 @@ const AvailablityPrefrences = () => {
               rightText="Monday"
               rightTextStyle={{
                 color: "#000",
-                alignSelf: "center",
                 marginLeft: 10,
                 fontSize: 12,
               }}
               style={{
                 flex: 1,
                 padding: 10,
-                alignItems: "start",
-                justifyContent: "start",
               }}
             />
           </View>

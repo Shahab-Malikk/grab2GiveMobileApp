@@ -6,10 +6,12 @@ import {
   nextStep,
 } from "../../store/slices/OnBoardingFormSlice";
 import SelectDropdown from "react-native-select-dropdown";
+import { useUserData } from "../../context/userDataContext";
 
 const AddressDetails = () => {
-  const [city, setCity] = useState("");
-  const [profession, setProfession] = useState("Software Engineer");
+  const { onBoardingFormData, setOnBoardingFormData } = useUserData();
+  const [city, setCity] = useState(onBoardingFormData.city);
+  const [profession, setProfession] = useState(onBoardingFormData.profession);
   const professionOptions = [
     "Software Engineer",
     "Doctor",
@@ -20,6 +22,7 @@ const AddressDetails = () => {
   const dispatch = useDispatch();
 
   const handleNext = () => {
+    setOnBoardingFormData((prevData) => ({ ...prevData, city, profession }));
     dispatch(nextStep());
     dispatch(incrementFormProgress());
   };
@@ -30,7 +33,7 @@ const AddressDetails = () => {
         <Text className="text-base font-bold text-base800 mb-3">City </Text>
         <TextInput
           className="border-2 border-base300 py-2 px-2 rounded-lg text-base "
-          onChange={(e) => setCity(e.target.value)}
+          onChangeText={(value) => setCity(value)}
           value={city}
           placeholder="Islamabad"
         />

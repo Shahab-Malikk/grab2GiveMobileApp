@@ -2,9 +2,20 @@ import { View, Text, Pressable, Image } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { signOut } from "aws-amplify/auth";
 
 const ProfileMain = () => {
   const navigation = useNavigation();
+  const handleLogout = async () => {
+    try {
+      await signOut({
+        global: true,
+      });
+      navigation.navigate("Login");
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <View className="flex-1 flex flex-col mt-12 px-4">
       <View className="flex flex-col justify-center items-center">
@@ -36,7 +47,10 @@ const ProfileMain = () => {
 
       <View className="flex flex-col items-center mb-10">
         <Text className="">Version 1.0.0</Text>
-        <Pressable className="flex flex-row py-4 items-center justify-center bg-red w-[100%] rounded-md mt-4">
+        <Pressable
+          onPress={handleLogout}
+          className="flex flex-row py-4 items-center justify-center bg-red w-[100%] rounded-md mt-4"
+        >
           <Text className="text-white text-center mr-2">Logout</Text>
           <Ionicons name="log-out-outline" size={24} color="white" />
         </Pressable>
