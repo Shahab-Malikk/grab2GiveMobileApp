@@ -905,6 +905,22 @@ export const schema = {
                         ]
                     }
                 },
+                "reservationRequests": {
+                    "name": "reservationRequests",
+                    "isArray": true,
+                    "type": {
+                        "model": "ReservationRequest"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": [
+                            "volunteer"
+                        ]
+                    }
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -1403,6 +1419,28 @@ export const schema = {
                         ]
                     }
                 },
+                "volunteerID": {
+                    "name": "volunteerID",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "volunteer": {
+                    "name": "volunteer",
+                    "isArray": false,
+                    "type": {
+                        "model": "Volunteer"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetNames": [
+                            "volunteerID"
+                        ]
+                    }
+                },
                 "foodId": {
                     "name": "foodId",
                     "isArray": false,
@@ -1494,6 +1532,15 @@ export const schema = {
                         "name": "byNgo",
                         "fields": [
                             "ngoId"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byVolunteer",
+                        "fields": [
+                            "volunteerID"
                         ]
                     }
                 },
@@ -1702,5 +1749,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "a1390e72c954e1b5199dd133716ca8b0"
+    "version": "4700b384f869bc34f7779ca032780829"
 };

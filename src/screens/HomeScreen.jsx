@@ -7,11 +7,30 @@ import RecentPickups from "../components/Overview/RecentPickups";
 import { useUserData } from "../context/userDataContext";
 
 const HomeScreen = () => {
-  const { getUserData } = useUserData();
+  const {
+    getUserData,
+    getNgosOfCurrentVolunteer,
+    getFoodListReservedByNgos,
+    userId,
+    ngos,
+    currentUserNgos,
+    foodListReservedByNgos,
+    isgettingReservations,
+    getAllData,
+    getUpComingDeliveries,
+    ngosArr,
+  } = useUserData();
+
+  const fetchData = async () => {
+    await getUserData();
+    await getNgosOfCurrentVolunteer();
+    await getFoodListReservedByNgos(ngosArr);
+    await getUpComingDeliveries(ngosArr);
+  };
 
   useEffect(() => {
-    getUserData();
-  }, []);
+    fetchData();
+  }, [userId]);
 
   const navigation = useNavigation();
   return (

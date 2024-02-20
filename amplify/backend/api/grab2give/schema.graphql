@@ -88,6 +88,8 @@ type Volunteer @model @auth(rules: [{ allow: public }]) {
   ngos: [VolunteerNgo] @hasMany(indexName: "byVolunteer", fields: ["id"])
   notifications: [Notification]
     @hasMany(indexName: "byVolunteer", fields: ["id"])
+  reservationRequests: [ReservationRequest]
+    @hasMany(indexName: "byVolunteer", fields: ["id"])
 }
 
 type VolunteerNgo @model @auth(rules: [{ allow: public }]) {
@@ -126,6 +128,8 @@ type ReservationRequest @model @auth(rules: [{ allow: public }]) {
   hotel: Hotel @belongsTo(fields: ["hotelId"])
   ngoId: String @index(name: "byNgo")
   ngo: Ngo @belongsTo(fields: ["ngoId"])
+  volunteerID: String @index(name: "byVolunteer")
+  volunteer: Volunteer @belongsTo(fields: ["volunteerID"])
   foodId: String @index(name: "byFood")
   food: Food @belongsTo(fields: ["foodId"])
   status: String!
