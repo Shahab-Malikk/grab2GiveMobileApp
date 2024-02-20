@@ -19,7 +19,7 @@ const Stack = createStackNavigator();
 const MainStackContainer = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Onboarding">
+      <Stack.Navigator initialRouteName="Home">
         <Stack.Screen
           name="About"
           component={AboutScreen}

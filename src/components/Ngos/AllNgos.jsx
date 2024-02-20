@@ -1,9 +1,21 @@
 import { View, Text, ScrollView, Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
 import NgoCard from "./NgoCard";
+import { useUserData } from "../../context/userDataContext";
+import { DataStore } from "@aws-amplify/datastore";
+import { VolunteerNgo } from "../../models";
 
 const AllNgos = () => {
-  const ngos = [
+  const {
+    ngos,
+    userId,
+    followedNgos,
+    unfollowedNgos,
+    splitFollowedUnfollowedNgos,
+    currentUserNgos,
+    getNgosOfCurrentVolunteer,
+  } = useUserData();
+  const hardCodedNgos = [
     {
       ngoName: "Eidhi ",
       location: "Taxila",
@@ -21,20 +33,29 @@ const AllNgos = () => {
     },
   ];
   const [isExploringNgosTab, setIsExploringNgosTab] = useState(true);
-  const [filteredNgos, setFilteredNgos] = useState([]);
+  const [filteredNgos, setFilteredNgos] = useState([unfollowedNgos]);
 
   const toggleTab = () => {
     setIsExploringNgosTab((prev) => !prev);
     if (isExploringNgosTab) {
-      setFilteredNgos(ngos.filter((item) => item.connected === true));
+      setFilteredNgos(ngos.filter((item) => currentUserNgos.includes(item.id)));
     } else {
-      setFilteredNgos(ngos.filter((item) => item.connected === false));
+      setFilteredNgos(
+        ngos.filter((item) => !currentUserNgos.includes(item.id))
+      );
     }
   };
 
   useEffect(() => {
-    setFilteredNgos(ngos.filter((item) => item.connected === false));
-  }, []);
+    if (isExploringNgosTab) {
+      setFilteredNgos(
+        ngos.filter((item) => !currentUserNgos.includes(item.id))
+      );
+    } else {
+      setFilteredNgos(ngos.filter((item) => currentUserNgos.includes(item.id)));
+    }
+  }, [followedNgos, unfollowedNgos]);
+
   return (
     <View className="px-4 py-4">
       <Text className="text-lg font-bold text-base800">Ngos</Text>
@@ -69,7 +90,7 @@ const AllNgos = () => {
         <ScrollView className="mt-4 ">
           <View className="flex flex-row basis-1/2 flex-wrap justify-between">
             {filteredNgos.map((item) => (
-              <NgoCard ngoName={item.ngoName} location={item.location} />
+              <NgoCard ngo={item} key={item.id} />
             ))}
           </View>
         </ScrollView>
