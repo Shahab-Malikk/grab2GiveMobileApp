@@ -6,7 +6,15 @@ import { useUserData } from "../../context/userDataContext";
 
 const NgoCard = (props) => {
   const [isNgoFollowed, setIsNgoFollowed] = useState(false);
-  const { userId } = useUserData();
+  const {
+    userId,
+    setCurrentUserNgos,
+    currentUserNgos,
+    getNgosOfCurrentVolunteer,
+    setFollowedNgos,
+    setUnfollowedNgos,
+    ngos,
+  } = useUserData();
   const { name, city, id } = props.ngo;
   const followNgo = async () => {
     try {
@@ -17,6 +25,12 @@ const NgoCard = (props) => {
 
       await DataStore.save(new VolunteerNgo(ngo));
       setIsNgoFollowed(true);
+      setCurrentUserNgos([...currentUserNgos, id]);
+      getNgosOfCurrentVolunteer();
+      setFollowedNgos(ngos.filter((item) => currentUserNgos.includes(item.id)));
+      setUnfollowedNgos(
+        ngos.filter((item) => !currentUserNgos.includes(item.id))
+      );
     } catch (e) {
       console.log(e);
     }
@@ -37,6 +51,12 @@ const NgoCard = (props) => {
         c.and((c) => [c.ngoID.eq(id), c.volunteerID.eq(userId)])
       );
       setIsNgoFollowed(false);
+      setCurrentUserNgos(currentUserNgos.filter((item) => item !== id));
+      getNgosOfCurrentVolunteer();
+      setFollowedNgos(ngos.filter((item) => currentUserNgos.includes(item.id)));
+      setUnfollowedNgos(
+        ngos.filter((item) => !currentUserNgos.includes(item.id))
+      );
     } catch (e) {
       console.log(e);
     }

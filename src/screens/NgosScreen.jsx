@@ -4,7 +4,7 @@ import AllNgos from "../components/Ngos/AllNgos";
 import { useUserData } from "../context/userDataContext";
 
 const NgosScreen = () => {
-  const { getNgosFromDb } = useUserData();
+  const { getNgosFromDb, getNgosOfCurrentVolunteer } = useUserData();
 
   useEffect(() => {
     getNgosFromDb();
