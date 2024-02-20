@@ -1,8 +1,11 @@
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import React from "react";
 import ReservedFoodCard from "./ReservedFoodCard";
+import { useUserData } from "../../context/userDataContext";
 
 const AllReservedFoods = () => {
+  const { foodListReservedByNgos } = useUserData();
+  console.log(foodListReservedByNgos);
   const reservedFoods = [
     {
       ngoName: "Al Khidmat Foundation",
@@ -37,13 +40,8 @@ const AllReservedFoods = () => {
       </Text>
       <View className="flex-1">
         <ScrollView className="mt-7">
-          {reservedFoods.map((item) => (
-            <ReservedFoodCard
-              ngoName={item.ngoName}
-              from={item.from}
-              to={item.to}
-              date={item.date}
-            />
+          {foodListReservedByNgos.map((item) => (
+            <ReservedFoodCard key={item.reservationRequestId} data={item} />
           ))}
         </ScrollView>
       </View>

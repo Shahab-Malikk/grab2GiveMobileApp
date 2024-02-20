@@ -23,10 +23,6 @@ export default function App() {
     console.log(hotels);
   };
 
-  // useEffect(() => {
-  //   getHotels();
-  // }, []);
-
   return (
     <SafeAreaProvider>
       <Provider store={store}>

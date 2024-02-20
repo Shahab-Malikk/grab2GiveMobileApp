@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext } from "react";
 import { useSelector } from "react-redux";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { DataStore } from "@aws-amplify/datastore";
-import { Volunteer, Ngo, VolunteerNgo } from "../models";
+import { Volunteer, Ngo, VolunteerNgo, ReservationRequest } from "../models";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 const UserDataContext = createContext();
@@ -26,6 +26,10 @@ export const UserDataProvider = ({ children }) => {
   const [filteredNgos, setFilteredNgos] = useState([]);
   const [followedNgos, setFollowedNgos] = useState([]);
   const [unfollowedNgos, setUnfollowedNgos] = useState([]);
+  const [foodListReservedByNgos, setFoodListReservedByNgos] = useState([]);
+  const [isgettingReservations, setIsGettingReservations] = useState(false);
+  const [upComingDeliveries, setUpComingDeliveries] = useState([]);
+  const ngosArr = [];
 
   async function handleFetchUserAttributes() {
     try {
@@ -63,12 +67,109 @@ export const UserDataProvider = ({ children }) => {
     const ngosFromDb = await DataStore.query(VolunteerNgo, (c) =>
       c.volunteerID.eq(userId)
     );
-    ngosFromDb.forEach((ngo) =>
-      setCurrentUserNgos((prev) => [...prev, ngo.ngoID])
-    );
+    ngosFromDb.forEach((ngo) => {
+      setCurrentUserNgos((prev) => [...prev, ngo.ngoID]);
+      ngosArr.push(ngo.ngoID);
+    });
 
     console.log("Ngos of Current User");
     console.log(ngosFromDb);
+  };
+
+  const getFoodListReservedByNgos = async (ngosArray) => {
+    console.log("Getting Food List Reserved By");
+
+    const connectedNgos = ngosArray;
+    console.log(connectedNgos.length);
+    let reservationRequest = [];
+    for (let i = 0; i < connectedNgos.length; i++) {
+      const request = await DataStore.query(ReservationRequest, (c) =>
+        c.and((c) => [c.ngoId.eq(connectedNgos[i]), c.status.eq("Accepted")])
+      );
+      reservationRequest = [...reservationRequest, ...request];
+    }
+    // console.log("Reservation Requests :");
+    // console.log(reservationRequest);
+    let foodList = [];
+    for (let i = 0; i < reservationRequest.length; i++) {
+      const reservationRequestId = reservationRequest[i].id;
+      const food = await reservationRequest[i].food;
+      const ngo = await reservationRequest[i].ngo;
+      const hotel = await reservationRequest[i].hotel;
+      const status = await reservationRequest[i].status;
+      const hotelName = hotel.name;
+      const ngoName = ngo.name;
+      const date = reservationRequest[i].updatedAt;
+      const foodName = food.name;
+      const pickupObj = {
+        reservationRequestId,
+        hotelName,
+        ngoName,
+        date,
+        foodName,
+        status,
+      };
+      console.log(pickupObj);
+      foodList.push(pickupObj);
+    }
+    const uniqueList = new Set(foodList);
+
+    setFoodListReservedByNgos([...uniqueList]);
+    console.log("Food List Reserved By Ngos");
+  };
+
+  const getUpComingDeliveries = async (ngosArray) => {
+    console.log("Getting Upcoming Deliveries");
+    setIsGettingReservations(true);
+
+    const connectedNgos = ngosArray;
+
+    let reservationRequest = [];
+    for (let i = 0; i < connectedNgos.length; i++) {
+      const request = await DataStore.query(ReservationRequest, (c) =>
+        c.and((c) => [c.ngoId.eq(connectedNgos[i]), c.volunteerID.eq(userId)])
+      );
+      reservationRequest = [...reservationRequest, ...request];
+    }
+    // console.log("Reservation Requests :");
+    // console.log(reservationRequest);
+    let foodList = [];
+    for (let i = 0; i < reservationRequest.length; i++) {
+      const reservationRequestId = reservationRequest[i].id;
+      const food = await reservationRequest[i].food;
+      const ngo = await reservationRequest[i].ngo;
+      const hotel = await reservationRequest[i].hotel;
+      const status = await reservationRequest[i].status;
+      const hotelName = hotel.name;
+      const ngoName = ngo.name;
+      const date = reservationRequest[i].updatedAt;
+      const foodName = food.name;
+      const pickupObj = {
+        reservationRequestId,
+        hotelName,
+        ngoName,
+        date,
+        foodName,
+        status,
+      };
+      console.log(pickupObj);
+      foodList.push(pickupObj);
+    }
+    const uniqueList = new Set(foodList);
+
+    setUpComingDeliveries([...uniqueList]);
+  };
+
+  const getAllData = async () => {
+    const promise1 = getUserData();
+    const promise2 = getNgosFromDb();
+    const promise3 = getNgosOfCurrentVolunteer();
+    const promise4 = getFoodListReservedByNgos();
+    const promise5 = getUpComingDeliveries();
+
+    Promise.all([promise1, promise2, promise3, promise4, promise5]).then(() => {
+      console.log("All Data Fetched");
+    });
   };
 
   return (
@@ -91,6 +192,14 @@ export const UserDataProvider = ({ children }) => {
         unfollowedNgos,
         setFollowedNgos,
         setUnfollowedNgos,
+        getFoodListReservedByNgos,
+        foodListReservedByNgos,
+        isgettingReservations,
+        setFoodListReservedByNgos,
+        upComingDeliveries,
+        getUpComingDeliveries,
+        getAllData,
+        ngosArr,
       }}
     >
       {children}

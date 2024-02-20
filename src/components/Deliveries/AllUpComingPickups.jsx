@@ -1,8 +1,11 @@
 import { View, Text, ScrollView } from "react-native";
 import React from "react";
 import PickupCard from "../Overview/PickupCard";
+import { useUserData } from "../../context/userDataContext";
 
 const AllUpComingPickups = () => {
+  const { upComingDeliveries } = useUserData();
+  console.log(upComingDeliveries);
   const recentPickups = [
     {
       ngoName: "Al Khidmat Foundation",
@@ -38,13 +41,8 @@ const AllUpComingPickups = () => {
       </Text>
       <View className="flex-1 mb-8">
         <ScrollView className="mt-4 mb-10">
-          {recentPickups.map((item) => (
-            <PickupCard
-              ngoName={item.ngoName}
-              from={item.from}
-              to={item.to}
-              date={item.date}
-            />
+          {upComingDeliveries.map((item) => (
+            <PickupCard key={item.reservationRequestId} data={item} />
           ))}
         </ScrollView>
       </View>

@@ -248,6 +248,7 @@ type EagerVolunteer = {
   readonly user?: Users | null;
   readonly ngos?: (VolunteerNgo | null)[] | null;
   readonly notifications?: (Notification | null)[] | null;
+  readonly reservationRequests?: (ReservationRequest | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -272,6 +273,7 @@ type LazyVolunteer = {
   readonly user: AsyncItem<Users | undefined>;
   readonly ngos: AsyncCollection<VolunteerNgo>;
   readonly notifications: AsyncCollection<Notification>;
+  readonly reservationRequests: AsyncCollection<ReservationRequest>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -404,6 +406,8 @@ type EagerReservationRequest = {
   readonly hotel?: Hotel | null;
   readonly ngoId?: string | null;
   readonly ngo?: Ngo | null;
+  readonly volunteerID?: string | null;
+  readonly volunteer?: Volunteer | null;
   readonly foodId?: string | null;
   readonly food?: Food | null;
   readonly status: string;
@@ -422,6 +426,8 @@ type LazyReservationRequest = {
   readonly hotel: AsyncItem<Hotel | undefined>;
   readonly ngoId?: string | null;
   readonly ngo: AsyncItem<Ngo | undefined>;
+  readonly volunteerID?: string | null;
+  readonly volunteer: AsyncItem<Volunteer | undefined>;
   readonly foodId?: string | null;
   readonly food: AsyncItem<Food | undefined>;
   readonly status: string;

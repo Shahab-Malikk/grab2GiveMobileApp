@@ -1,9 +1,11 @@
 import { View, Text, Pressable, ScrollView, FlatList } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import PickupCard from "./PickupCard";
+import { useUserData } from "../../context/userDataContext";
 
 const RecentPickups = () => {
+  const { upComingDeliveries } = useUserData();
   const navigation = useNavigation();
   const navigateToPickups = () => {
     navigation.navigate("Deliveries");
@@ -47,16 +49,9 @@ const RecentPickups = () => {
       <View className="mt-2 flex-1">
         <FlatList
           contentContainerStyle={{ height: "auto" }}
-          data={recentPickups}
-          renderItem={({ item }) => (
-            <PickupCard
-              ngoName={item.ngoName}
-              from={item.from}
-              to={item.to}
-              date={item.date}
-            />
-          )}
-          keyExtractor={(item) => item.ngoName}
+          data={upComingDeliveries}
+          renderItem={({ item }) => <PickupCard data={item} />}
+          keyExtractor={(item) => item.reservationRequestId.toString()}
           scrollToOverflowEnabled={true}
         />
       </View>
