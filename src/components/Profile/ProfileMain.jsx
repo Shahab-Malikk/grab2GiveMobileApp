@@ -1,10 +1,12 @@
 import { View, Text, Pressable, Image } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { signOut } from "aws-amplify/auth";
+import { useUserData } from "../../context/userDataContext";
 
 const ProfileMain = () => {
+  const { getUserData } = useUserData();
   const navigation = useNavigation();
   const handleLogout = async () => {
     try {
@@ -16,6 +18,10 @@ const ProfileMain = () => {
       console.log(e);
     }
   };
+
+  // useEffect(() => {
+  //   getUserData();
+  // }, []);
   return (
     <View className="flex-1 flex flex-col mt-12 px-4">
       <View className="flex flex-col justify-center items-center">

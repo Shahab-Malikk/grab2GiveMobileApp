@@ -25,7 +25,6 @@ const SignupForm = () => {
           userRole: "volunteer",
         })
       );
-
       navigation.navigate("Login");
     } catch (e) {
       console.log(e);

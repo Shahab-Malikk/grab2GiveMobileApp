@@ -18,7 +18,7 @@ const PickupCard = (props) => {
         </View>
         <View className="flex w-[100%] flex-row mb-2">
           <Text className=" text-lightGrey text-xs">To : </Text>
-          <Text className="text-xs">{ngoName}</Text>
+          <Text className="text-xs">{ngoName }</Text>
         </View>
         <View className="flex flex-row gap-1 mb-1">
           <View className="p-1 bg-[#edf0f7] rounded-sm flex flex-row">

@@ -1,21 +1,22 @@
 import { View, Text, TextInput, Pressable, ScrollView } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SelectDropdown from "react-native-select-dropdown";
 import CheckBox from "react-native-check-box";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useUserData } from "../../context/userDataContext";
+import { DataStore } from "@aws-amplify/datastore";
+import { Volunteer } from "../../models";
 
 const PersonalInformation = () => {
+  const { currentUserData, userId, setCurrentUserData } = useUserData();
   const navigation = useNavigation();
   const [isFieldsDisabled, setIsFieldsDisabled] = useState(true);
-  const [name, setName] = useState("John Doe");
-  const [phone, setPhone] = useState("1234567890");
-  const [city, setCity] = useState("Kathmandu");
-  const [profession, setProfession] = useState("Software Engineer");
-  const [availablityPrefrences, setAvailablityPrefrences] = useState([
-    "Monday",
-    "Tuesday",
-  ]);
+  const [name, setName] = useState(currentUserData.name);
+  const [phone, setPhone] = useState(currentUserData.contactNumber.toString());
+  const [city, setCity] = useState(currentUserData.city);
+  const [profession, setProfession] = useState(currentUserData.hobbies);
+  const [availablityPrefrences, setAvailablityPrefrences] = useState([]);
 
   const professionOptions = [
     "Software Engineer",
@@ -24,6 +25,15 @@ const PersonalInformation = () => {
     "Teacher",
     "Student",
   ];
+
+  const convertAvailablityPrefrences = (prefrences) => {
+    const prefrencesArr = prefrences.split(",");
+    setAvailablityPrefrences(prefrencesArr);
+  };
+
+  useEffect(() => {
+    convertAvailablityPrefrences(currentUserData.availableDays);
+  }, []);
 
   const handleCheckboxToggle = (itemValue) => {
     if (availablityPrefrences.includes(itemValue)) {
@@ -35,15 +45,20 @@ const PersonalInformation = () => {
     }
   };
 
-  const saveData = () => {
-    const formData = {
-      name,
-      phone,
-      city,
-      profession,
-      availablityPrefrences,
-    };
-    console.log(formData);
+  const saveData = async () => {
+    const oldVolunteerData = await DataStore.query(Volunteer, userId);
+
+    const updatedData = await DataStore.save(
+      Volunteer.copyOf(oldVolunteerData, (updated) => {
+        updated.name = name;
+        updated.contactNumber = parseInt(phone);
+        updated.city = city;
+        updated.hobbies = profession;
+        updated.availableDays = availablityPrefrences.toString();
+      })
+    );
+    console.log(updatedData);
+    setCurrentUserData(updatedData);
   };
 
   const enableFields = () => {
@@ -86,7 +101,7 @@ const PersonalInformation = () => {
             <Text className="text-sm text-base800">Name </Text>
             <TextInput
               className="border-2 border-base300 mt-1 py-2 px-2 rounded-lg "
-              onChange={(e) => setName(e.target.value)}
+              onChangeText={(value) => setName(value)}
               value={name}
               editable={!isFieldsDisabled}
             />
@@ -95,7 +110,7 @@ const PersonalInformation = () => {
             <Text className="text-sm text-base800">Phone</Text>
             <TextInput
               className="border-2 border-base300 mt-1 py-2 px-2 rounded-lg "
-              onChange={(e) => setPhone(e.target.value)}
+              onChangeText={(value) => setPhone(value)}
               value={phone}
               editable={!isFieldsDisabled}
             />
@@ -104,7 +119,7 @@ const PersonalInformation = () => {
             <Text className="text-sm text-base800">City</Text>
             <TextInput
               className="border-2 border-base300 mt-1 py-2 px-2 rounded-lg "
-              onChange={(e) => setCity(e.target.value)}
+              onChangeText={(value) => setCity(value)}
               value={city}
               editable={!isFieldsDisabled}
             />

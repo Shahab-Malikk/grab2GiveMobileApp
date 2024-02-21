@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { fetchUserAttributes } from "aws-amplify/auth";
 import { DataStore } from "@aws-amplify/datastore";
 import { Volunteer, Ngo, VolunteerNgo, ReservationRequest } from "../models";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 const UserDataContext = createContext();
 
@@ -29,6 +28,7 @@ export const UserDataProvider = ({ children }) => {
   const [foodListReservedByNgos, setFoodListReservedByNgos] = useState([]);
   const [isgettingReservations, setIsGettingReservations] = useState(false);
   const [upComingDeliveries, setUpComingDeliveries] = useState([]);
+  const [currentUserData, setCurrentUserData] = useState({});
   const ngosArr = [];
 
   async function handleFetchUserAttributes() {
@@ -47,6 +47,7 @@ export const UserDataProvider = ({ children }) => {
     const userData = await DataStore.query(Volunteer, userId);
     console.log(userData);
     setUserName(userData.name);
+    setCurrentUserData(userData);
   };
 
   const getNgosFromDb = async () => {
@@ -200,6 +201,8 @@ export const UserDataProvider = ({ children }) => {
         getUpComingDeliveries,
         getAllData,
         ngosArr,
+        currentUserData,
+        setCurrentUserData,
       }}
     >
       {children}
