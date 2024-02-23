@@ -17,41 +17,52 @@ import { useUserData } from "../context/userDataContext";
 const Stack = createStackNavigator();
 
 const MainStackContainer = () => {
+  const { checkIfUserIsLoggedIn, isLoggedIn } = useUserData();
+  useEffect(() => {
+    console.log("checking if user is logged in");
+    checkIfUserIsLoggedIn();
+  }, [isLoggedIn]);
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
+        {/* <Stack.Screen
           name="About"
           component={AboutScreen}
           options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="Home"
-          component={TabContainer}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Signup"
-          component={SignupScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="PersonalInfo"
-          component={PersonalInformationScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="UpdatePassword"
-          component={UpdatePasswordScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
+        /> */}
+        {isLoggedIn ? (
+          <>
+            <Stack.Screen
+              name="Home"
+              component={TabContainer}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="PersonalInfo"
+              component={PersonalInformationScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="UpdatePassword"
+              component={UpdatePasswordScreen}
+              options={{ headerShown: false }}
+            />
+          </>
+        ) : (
+          <>
+            <Stack.Screen
+              name="Login"
+              component={LoginScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Signup"
+              component={SignupScreen}
+              options={{ headerShown: false }}
+            />
+          </>
+        )}
+        {/* <Stack.Screen
           name="PreOnboarding"
           component={PreOnboardingScreen}
           options={{ headerShown: false }}
@@ -65,7 +76,7 @@ const MainStackContainer = () => {
           name="PostOnboarding"
           component={PostOnboardingScreen}
           options={{ headerShown: false }}
-        />
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

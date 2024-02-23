@@ -6,14 +6,15 @@ import { signOut } from "aws-amplify/auth";
 import { useUserData } from "../../context/userDataContext";
 
 const ProfileMain = () => {
-  const { getUserData } = useUserData();
+  const { getUserData, setIsLoggedIn } = useUserData();
   const navigation = useNavigation();
   const handleLogout = async () => {
     try {
       await signOut({
         global: true,
       });
-      navigation.navigate("Login");
+      setIsLoggedIn(false);
+      // navigation.navigate("Login");
     } catch (e) {
       console.log(e);
     }

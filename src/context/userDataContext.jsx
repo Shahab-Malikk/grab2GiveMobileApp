@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext } from "react";
 import { useSelector } from "react-redux";
-import { fetchUserAttributes } from "aws-amplify/auth";
+import { fetchUserAttributes, getCurrentUser } from "aws-amplify/auth";
 import { DataStore } from "@aws-amplify/datastore";
 import { Volunteer, Ngo, VolunteerNgo, ReservationRequest } from "../models";
 
@@ -29,7 +29,16 @@ export const UserDataProvider = ({ children }) => {
   const [isgettingReservations, setIsGettingReservations] = useState(false);
   const [upComingDeliveries, setUpComingDeliveries] = useState([]);
   const [currentUserData, setCurrentUserData] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const ngosArr = [];
+
+  const checkIfUserIsLoggedIn = async () => {
+    const user = await getCurrentUser();
+    if (user) {
+      setIsLoggedIn(true);
+    }
+    console.log(user);
+  };
 
   async function handleFetchUserAttributes() {
     try {
@@ -203,6 +212,9 @@ export const UserDataProvider = ({ children }) => {
         ngosArr,
         currentUserData,
         setCurrentUserData,
+        checkIfUserIsLoggedIn,
+        isLoggedIn,
+        setIsLoggedIn,
       }}
     >
       {children}

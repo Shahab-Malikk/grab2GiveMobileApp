@@ -2,8 +2,10 @@ import { View, Text, TextInput, Pressable } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { signIn } from "aws-amplify/auth";
+import { useUserData } from "../../context/userDataContext";
 
 const LoginForm = () => {
+  const { setIsLoggedIn } = useUserData();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
@@ -19,8 +21,7 @@ const LoginForm = () => {
         },
       });
       console.log(isSignedIn, nextStep);
-
-      navigation.navigate("Onboarding");
+      setIsLoggedIn(true);
     } catch (e) {
       console.log(e);
     }
