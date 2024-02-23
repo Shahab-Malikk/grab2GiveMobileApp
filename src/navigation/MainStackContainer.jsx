@@ -10,6 +10,7 @@ import PreOnboardingScreen from "../screens/PreOnboardingScreen";
 import OnBoardingScreen from "../screens/OnBoardingScreen";
 import PostOnboardingScreen from "../screens/PostOnboardingScreen";
 import AboutScreen from "../screens/AboutScreen";
+import { DataStore } from "@aws-amplify/datastore";
 
 import TabContainer from "./TabContainer";
 import { useUserData } from "../context/userDataContext";
@@ -17,66 +18,111 @@ import { useUserData } from "../context/userDataContext";
 const Stack = createStackNavigator();
 
 const MainStackContainer = () => {
-  const { checkIfUserIsLoggedIn, isLoggedIn } = useUserData();
+  const {
+    checkIfUserIsLoggedIn,
+    isLoggedIn,
+    isFirstLaunched,
+    checkIfFirstLaunched,
+    checkOnboardingStatus,
+    isOnboardingCompleted,
+    getUserData,
+  } = useUserData();
   useEffect(() => {
     console.log("checking if user is logged in");
-    checkIfUserIsLoggedIn();
+
+    DataStore.start().then(() => {
+      checkIfUserIsLoggedIn();
+    });
   }, [isLoggedIn]);
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        {/* <Stack.Screen
+
+  useEffect(() => {
+    checkIfFirstLaunched();
+  }, []);
+
+  useEffect(() => {
+    console.log("checking onboarding status");
+    DataStore.start().then(() => {
+      if (isLoggedIn) {
+        getUserData();
+      }
+    });
+  }, [isLoggedIn]);
+
+  const screenToRender = () => {
+    if (isFirstLaunched !== null && isLoggedIn && isOnboardingCompleted) {
+      return (
+        <>
+          <Stack.Screen
+            name="Home"
+            component={TabContainer}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="PersonalInfo"
+            component={PersonalInformationScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="UpdatePassword"
+            component={UpdatePasswordScreen}
+            options={{ headerShown: false }}
+          />
+        </>
+      );
+    } else if (
+      isFirstLaunched !== null &&
+      isLoggedIn &&
+      !isOnboardingCompleted
+    ) {
+      return (
+        <>
+          <Stack.Screen
+            name="PreOnboarding"
+            component={PreOnboardingScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Onboarding"
+            component={OnBoardingScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="PostOnboarding"
+            component={PostOnboardingScreen}
+            options={{ headerShown: false }}
+          />
+        </>
+      );
+    } else if (isFirstLaunched !== null && !isLoggedIn) {
+      return (
+        <>
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Signup"
+            component={SignupScreen}
+            options={{ headerShown: false }}
+          />
+        </>
+      );
+    } else {
+      return (
+        <Stack.Screen
           name="About"
           component={AboutScreen}
           options={{ headerShown: false }}
-        /> */}
-        {isLoggedIn ? (
-          <>
-            <Stack.Screen
-              name="Home"
-              component={TabContainer}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="PersonalInfo"
-              component={PersonalInformationScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="UpdatePassword"
-              component={UpdatePasswordScreen}
-              options={{ headerShown: false }}
-            />
-          </>
-        ) : (
-          <>
-            <Stack.Screen
-              name="Login"
-              component={LoginScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Signup"
-              component={SignupScreen}
-              options={{ headerShown: false }}
-            />
-          </>
-        )}
-        {/* <Stack.Screen
-          name="PreOnboarding"
-          component={PreOnboardingScreen}
-          options={{ headerShown: false }}
         />
-        <Stack.Screen
-          name="Onboarding"
-          component={OnBoardingScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="PostOnboarding"
-          component={PostOnboardingScreen}
-          options={{ headerShown: false }}
-        /> */}
+      );
+    }
+  };
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        {screenToRender()}
       </Stack.Navigator>
     </NavigationContainer>
   );

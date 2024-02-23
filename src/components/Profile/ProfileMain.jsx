@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { signOut } from "aws-amplify/auth";
 import { useUserData } from "../../context/userDataContext";
+import { DataStore } from "@aws-amplify/datastore";
 
 const ProfileMain = () => {
   const { getUserData, setIsLoggedIn } = useUserData();
@@ -12,6 +13,9 @@ const ProfileMain = () => {
     try {
       await signOut({
         global: true,
+      });
+      await DataStore.clear().then(() => {
+        console.log("Datastore cleared");
       });
       setIsLoggedIn(false);
       // navigation.navigate("Login");

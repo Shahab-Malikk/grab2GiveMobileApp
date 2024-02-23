@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { fetchUserAttributes, getCurrentUser } from "aws-amplify/auth";
 import { DataStore } from "@aws-amplify/datastore";
 import { Volunteer, Ngo, VolunteerNgo, ReservationRequest } from "../models";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const UserDataContext = createContext();
 
@@ -30,6 +31,8 @@ export const UserDataProvider = ({ children }) => {
   const [upComingDeliveries, setUpComingDeliveries] = useState([]);
   const [currentUserData, setCurrentUserData] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isFirstLaunched, setIsFirstLaunched] = useState(null);
+  const [isOnboardingCompleted, setIsOnboardingCompleted] = useState(null);
   const ngosArr = [];
 
   const checkIfUserIsLoggedIn = async () => {
@@ -56,6 +59,12 @@ export const UserDataProvider = ({ children }) => {
     const userData = await DataStore.query(Volunteer, userId);
     console.log(userData);
     setUserName(userData.name);
+    if (userData.name !== null) {
+      setIsOnboardingCompleted(true);
+    } else {
+      setIsOnboardingCompleted(false);
+    }
+
     setCurrentUserData(userData);
   };
 
@@ -182,6 +191,37 @@ export const UserDataProvider = ({ children }) => {
     });
   };
 
+  const checkIfFirstLaunched = async () => {
+    try {
+      AsyncStorage.getItem("isFirstLaunched").then((value) => {
+        if (value === null) {
+          AsyncStorage.setItem("isFirstLaunched", "true");
+          setIsFirstLaunched(true);
+        }
+        if (value === "true") {
+          setIsFirstLaunched(false);
+        }
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const checkOnboardingStatus = async () => {
+    try {
+      AsyncStorage.getItem("isOnboardingCompleted").then((value) => {
+        if (value === null) {
+          setIsOnboardingCompleted(false);
+        }
+        if (value === "true") {
+          setIsOnboardingCompleted(true);
+        }
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <UserDataContext.Provider
       value={{
@@ -215,6 +255,12 @@ export const UserDataProvider = ({ children }) => {
         checkIfUserIsLoggedIn,
         isLoggedIn,
         setIsLoggedIn,
+        isFirstLaunched,
+        setIsFirstLaunched,
+        checkIfFirstLaunched,
+        checkOnboardingStatus,
+        isOnboardingCompleted,
+        setIsOnboardingCompleted,
       }}
     >
       {children}

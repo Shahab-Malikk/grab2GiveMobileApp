@@ -10,9 +10,15 @@ import { useNavigation } from "@react-navigation/native";
 import { useUserData } from "../../context/userDataContext";
 import { DataStore } from "@aws-amplify/datastore";
 import { Volunteer } from "../../models";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AvailablityPrefrences = () => {
-  const { onBoardingFormData, setOnBoardingFormData, userId } = useUserData();
+  const {
+    onBoardingFormData,
+    setOnBoardingFormData,
+    userId,
+    setIsOnboardingCompleted,
+  } = useUserData();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [availablityPrefrences, setAvailablityPrefrences] = useState(
@@ -51,6 +57,8 @@ const AvailablityPrefrences = () => {
       // DataStore.clear();
 
       await DataStore.save(new Volunteer(volunteerData));
+      // await AsyncStorage.setItem("isOnboardingCompleted", "true");
+      setIsOnboardingCompleted(true);
     } catch (e) {
       console.log(e);
     }

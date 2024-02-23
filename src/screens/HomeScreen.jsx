@@ -5,6 +5,7 @@ import Banner from "../components/Overview/Banner";
 import Stats from "../components/Overview/Stats";
 import RecentPickups from "../components/Overview/RecentPickups";
 import { useUserData } from "../context/userDataContext";
+import { DataStore } from "@aws-amplify/datastore";
 
 const HomeScreen = () => {
   const {
@@ -29,7 +30,9 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    DataStore.start().then(() => {
+      fetchData();
+    });
   }, [userId]);
 
   const navigation = useNavigation();

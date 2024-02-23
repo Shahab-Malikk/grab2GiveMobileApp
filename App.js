@@ -18,10 +18,9 @@ import { UserDataProvider } from "./src/context/userDataContext";
 Amplify.configure(amplifyconfig);
 
 export default function App() {
-  const getHotels = async () => {
-    const hotels = await DataStore.query(Hotel);
-    console.log(hotels);
-  };
+  useEffect(() => {
+    DataStore.start();
+  }, []);
 
   return (
     <SafeAreaProvider>
