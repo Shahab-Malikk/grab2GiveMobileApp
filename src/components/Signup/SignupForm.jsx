@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { signUp } from "aws-amplify/auth";
 import { DataStore } from "@aws-amplify/datastore";
 import { Users } from "../../models";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignupForm = () => {
   const [email, setEmail] = useState("");
@@ -17,6 +18,7 @@ const SignupForm = () => {
         username: email,
         password: password,
       });
+      await AsyncStorage.setItem("userName", email);
       console.log(isSignUpComplete, userId, nextStep);
       const user = await DataStore.save(
         new Users({
@@ -25,7 +27,7 @@ const SignupForm = () => {
           userRole: "volunteer",
         })
       );
-      navigation.navigate("Login");
+      navigation.navigate("CodeConfirmation");
     } catch (e) {
       console.log(e);
     }
