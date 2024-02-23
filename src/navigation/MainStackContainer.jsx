@@ -10,6 +10,7 @@ import PreOnboardingScreen from "../screens/PreOnboardingScreen";
 import OnBoardingScreen from "../screens/OnBoardingScreen";
 import PostOnboardingScreen from "../screens/PostOnboardingScreen";
 import AboutScreen from "../screens/AboutScreen";
+import CodeCondirmationScreen from "../screens/CodeConfirmationScreen";
 import { DataStore } from "@aws-amplify/datastore";
 
 import TabContainer from "./TabContainer";
@@ -106,6 +107,11 @@ const MainStackContainer = () => {
             component={SignupScreen}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="CodeConfirmation"
+            component={CodeCondirmationScreen}
+            options={{ headerShown: false }}
+          />
         </>
       );
     } else {
@@ -121,9 +127,7 @@ const MainStackContainer = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        {screenToRender()}
-      </Stack.Navigator>
+      <Stack.Navigator>{screenToRender()}</Stack.Navigator>
     </NavigationContainer>
   );
 };
