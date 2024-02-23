@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { updatePassword } from "aws-amplify/auth";
+import BtnBack from "../utils/BtnBack";
 
 const PasswordNSecurity = () => {
   const [oldPassword, setOldPassword] = useState("");
@@ -26,14 +27,7 @@ const PasswordNSecurity = () => {
 
   return (
     <View className="px-4 py-4 flex-1">
-      <Pressable
-        className="mb-4"
-        onPress={() => {
-          navigation.goBack();
-        }}
-      >
-        <Ionicons name="arrow-back-circle-outline" size={44} color="black" />
-      </Pressable>
+      <BtnBack />
       <Text className="text-lg font-bold text-base800">
         Password & Security
       </Text>

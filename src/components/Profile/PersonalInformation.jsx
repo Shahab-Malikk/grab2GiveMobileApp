@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useUserData } from "../../context/userDataContext";
 import { DataStore } from "@aws-amplify/datastore";
 import { Volunteer } from "../../models";
+import BtnBack from "../utils/BtnBack";
 
 const PersonalInformation = () => {
   const { currentUserData, userId, setCurrentUserData } = useUserData();
@@ -67,14 +68,7 @@ const PersonalInformation = () => {
 
   return (
     <View className="px-4 py-4 flex-1">
-      <Pressable
-        className="mb-4"
-        onPress={() => {
-          navigation.goBack();
-        }}
-      >
-        <Ionicons name="arrow-back-circle-outline" size={44} color="black" />
-      </Pressable>
+      <BtnBack />
       <Text className="text-lg font-bold text-base800">
         Personal Information
       </Text>
