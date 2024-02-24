@@ -14,6 +14,8 @@ const NgoCard = (props) => {
     setFollowedNgos,
     setUnfollowedNgos,
     ngos,
+    ngosArr,
+    getFoodListReservedByNgos,
   } = useUserData();
   const { name, city, id } = props.ngo;
   const followNgo = async () => {
@@ -26,11 +28,12 @@ const NgoCard = (props) => {
       await DataStore.save(new VolunteerNgo(ngo));
       setIsNgoFollowed(true);
       setCurrentUserNgos([...currentUserNgos, id]);
-      getNgosOfCurrentVolunteer();
+      await getNgosOfCurrentVolunteer();
       setFollowedNgos(ngos.filter((item) => currentUserNgos.includes(item.id)));
       setUnfollowedNgos(
         ngos.filter((item) => !currentUserNgos.includes(item.id))
       );
+      await getFoodListReservedByNgos(ngosArr);
     } catch (e) {
       console.log(e);
     }
@@ -52,11 +55,12 @@ const NgoCard = (props) => {
       );
       setIsNgoFollowed(false);
       setCurrentUserNgos(currentUserNgos.filter((item) => item !== id));
-      getNgosOfCurrentVolunteer();
+      await getNgosOfCurrentVolunteer();
       setFollowedNgos(ngos.filter((item) => currentUserNgos.includes(item.id)));
       setUnfollowedNgos(
         ngos.filter((item) => !currentUserNgos.includes(item.id))
       );
+      await getFoodListReservedByNgos(ngosArr);
     } catch (e) {
       console.log(e);
     }

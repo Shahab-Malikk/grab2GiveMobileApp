@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import Banner from "../components/Overview/Banner";
 import Stats from "../components/Overview/Stats";
 import RecentPickups from "../components/Overview/RecentPickups";
+import RecentReservedFoods from "../components/Overview/RecentReservedFoods";
 import { useUserData } from "../context/userDataContext";
 import { DataStore } from "@aws-amplify/datastore";
 
@@ -40,6 +41,7 @@ const HomeScreen = () => {
     <SafeAreaView className="flex-1 bg-bgLight relative">
       <Banner />
       <Stats />
+      <RecentReservedFoods />
       <RecentPickups />
     </SafeAreaView>
   );

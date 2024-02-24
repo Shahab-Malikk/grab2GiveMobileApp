@@ -7,18 +7,18 @@ const PickupCard = (props) => {
   return (
     <View className="flex-1 justify-between flex-row p-4 bg-white rounded-sm mb-4">
       <Image
-        source={require("../../../assets/volunteer1.webp")}
-        className="w-16 h-24 rounded-md mr-2"
+        source={require("../../../assets/meal1.png")}
+        className="w-24 h-28 rounded-md mr-2"
       />
       <View className="flex flex-col mr-2 ">
-        <Text className=" text-sm font-bold mb-1">{hotelName}</Text>
+        <Text className=" text-sm font-bold mb-1">{foodName}</Text>
         <View className="flex flex-row mb-1">
           <Text className="text-lightGrey text-xs">From : </Text>
           <Text className="text-xs">{hotelName}</Text>
         </View>
         <View className="flex w-[100%] flex-row mb-2">
           <Text className=" text-lightGrey text-xs">To : </Text>
-          <Text className="text-xs">{ngoName }</Text>
+          <Text className="text-xs">{ngoName}</Text>
         </View>
         <View className="flex flex-row gap-1 mb-1">
           <View className="p-1 bg-[#edf0f7] rounded-sm flex flex-row">

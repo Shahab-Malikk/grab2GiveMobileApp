@@ -164,8 +164,6 @@ const PersonalInformation = () => {
                   style={{
                     flex: 1,
                     padding: 10,
-                    alignItems: "start",
-                    justifyContent: "start",
                   }}
                   disabled={isFieldsDisabled}
                 />
