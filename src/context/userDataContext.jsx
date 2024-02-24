@@ -33,14 +33,17 @@ export const UserDataProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isFirstLaunched, setIsFirstLaunched] = useState(null);
   const [isOnboardingCompleted, setIsOnboardingCompleted] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const ngosArr = [];
 
   const checkIfUserIsLoggedIn = async () => {
+    setIsLoading(true);
     const user = await getCurrentUser();
     if (user) {
       setIsLoggedIn(true);
     }
     console.log(user);
+    setIsLoading(false);
   };
 
   async function handleFetchUserAttributes() {
@@ -193,7 +196,9 @@ export const UserDataProvider = ({ children }) => {
 
   const checkIfFirstLaunched = async () => {
     try {
+      console.log("Checking First Launched");
       AsyncStorage.getItem("isFirstLaunched").then((value) => {
+        console.log("Checking if first launched", value);
         if (value === null) {
           AsyncStorage.setItem("isFirstLaunched", "true");
           setIsFirstLaunched(true);
@@ -205,9 +210,11 @@ export const UserDataProvider = ({ children }) => {
     } catch (e) {
       console.log(e);
     }
+    setIsLoading(false);
   };
 
   const checkOnboardingStatus = async () => {
+    setIsLoading(true);
     try {
       AsyncStorage.getItem("isOnboardingCompleted").then((value) => {
         if (value === null) {
@@ -220,6 +227,7 @@ export const UserDataProvider = ({ children }) => {
     } catch (e) {
       console.log(e);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -261,6 +269,8 @@ export const UserDataProvider = ({ children }) => {
         checkOnboardingStatus,
         isOnboardingCompleted,
         setIsOnboardingCompleted,
+        isLoading,
+        setIsLoading,
       }}
     >
       {children}

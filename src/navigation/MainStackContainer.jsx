@@ -11,6 +11,7 @@ import OnBoardingScreen from "../screens/OnBoardingScreen";
 import PostOnboardingScreen from "../screens/PostOnboardingScreen";
 import AboutScreen from "../screens/AboutScreen";
 import CodeCondirmationScreen from "../screens/CodeConfirmationScreen";
+import SplashScreen from "../components/utils/SplashScreen";
 import { DataStore } from "@aws-amplify/datastore";
 
 import TabContainer from "./TabContainer";
@@ -27,6 +28,7 @@ const MainStackContainer = () => {
     checkOnboardingStatus,
     isOnboardingCompleted,
     getUserData,
+    isLoading,
   } = useUserData();
   useEffect(() => {
     console.log("checking if user is logged in");
@@ -48,6 +50,16 @@ const MainStackContainer = () => {
       }
     });
   }, [isLoggedIn]);
+
+  // if (isLoading) {
+  //   return (
+  //     <Stack.Screen
+  //       name="Splash"
+  //       component={SplashScreen}
+  //       options={{ headerShown: false }}
+  //     />
+  //   );
+  // } else
 
   const screenToRender = () => {
     if (isFirstLaunched !== null && isLoggedIn && isOnboardingCompleted) {
