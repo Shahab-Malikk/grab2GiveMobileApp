@@ -29,8 +29,10 @@ const MainStackContainer = () => {
     isOnboardingCompleted,
     getUserData,
     isLoading,
+    setIsLoading,
   } = useUserData();
   useEffect(() => {
+    setIsLoading(true);
     console.log("checking if user is logged in");
 
     DataStore.start().then(() => {
@@ -48,6 +50,7 @@ const MainStackContainer = () => {
       if (isLoggedIn) {
         getUserData();
       }
+      setIsLoading(false);
     });
   }, [isLoggedIn]);
 

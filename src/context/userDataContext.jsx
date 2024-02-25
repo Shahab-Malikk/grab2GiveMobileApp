@@ -34,6 +34,8 @@ export const UserDataProvider = ({ children }) => {
   const [isFirstLaunched, setIsFirstLaunched] = useState(null);
   const [isOnboardingCompleted, setIsOnboardingCompleted] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [noOfCompletedDeliveries, setNoOfCompletedDeliveries] = useState(0);
+  const [noOfUpcomingDeliveries, setNoOfUpcomingDeliveries] = useState(0);
   const ngosArr = [];
 
   const checkIfUserIsLoggedIn = async () => {
@@ -110,6 +112,7 @@ export const UserDataProvider = ({ children }) => {
       );
       reservationRequest = [...reservationRequest, ...request];
     }
+
     // console.log("Reservation Requests :");
     // console.log(reservationRequest);
     let foodList = [];
@@ -153,6 +156,14 @@ export const UserDataProvider = ({ children }) => {
       );
       reservationRequest = [...reservationRequest, ...request];
     }
+    reservationRequest.forEach((item) => {
+      if (item.status === "Completed") {
+        setNoOfCompletedDeliveries((prev) => prev + 1);
+      }
+      if (item.status === "VOLUNTEERED") {
+        setNoOfUpcomingDeliveries((prev) => prev + 1);
+      }
+    });
     // console.log("Reservation Requests :");
     // console.log(reservationRequest);
     let foodList = [];
@@ -271,6 +282,10 @@ export const UserDataProvider = ({ children }) => {
         setIsOnboardingCompleted,
         isLoading,
         setIsLoading,
+        setNoOfCompletedDeliveries,
+        noOfCompletedDeliveries,
+        noOfUpcomingDeliveries,
+        setNoOfUpcomingDeliveries,
       }}
     >
       {children}
