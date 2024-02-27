@@ -4,6 +4,7 @@ import { fetchUserAttributes, getCurrentUser } from "aws-amplify/auth";
 import { DataStore } from "@aws-amplify/datastore";
 import { Volunteer, Ngo, VolunteerNgo, ReservationRequest } from "../models";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { downloadData, getUrl } from "aws-amplify/storage";
 
 const UserDataContext = createContext();
 
@@ -14,6 +15,7 @@ export const useUserData = () => {
 export const UserDataProvider = ({ children }) => {
   const [onBoardingFormData, setOnBoardingFormData] = useState({
     name: "Malik",
+    profileImage: "",
     phone: "",
     city: "",
     profession: "Software Engineer",
@@ -21,6 +23,7 @@ export const UserDataProvider = ({ children }) => {
   });
   const [userId, setUserId] = useState(null);
   const [userName, setUserName] = useState(null);
+  const [userImage, setUserImage] = useState(null);
   const [ngos, setNgos] = useState([]);
   const [currentUserNgos, setCurrentUserNgos] = useState([]);
   const [filteredNgos, setFilteredNgos] = useState([]);
@@ -70,6 +73,16 @@ export const UserDataProvider = ({ children }) => {
       setIsOnboardingCompleted(false);
     }
 
+    if (userData.image) {
+      const image = await getUrl({
+        key: userData.image,
+      });
+      console.log("Image", result);
+      const updatedUserData = {
+        ...userData,
+        profileImage: image,
+      };
+    }
     setCurrentUserData(userData);
   };
 
@@ -286,6 +299,8 @@ export const UserDataProvider = ({ children }) => {
         noOfCompletedDeliveries,
         noOfUpcomingDeliveries,
         setNoOfUpcomingDeliveries,
+        userImage,
+        setUserImage,
       }}
     >
       {children}
