@@ -11,6 +11,7 @@ import { useUserData } from "../../context/userDataContext";
 import { DataStore } from "@aws-amplify/datastore";
 import { Volunteer } from "../../models";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { uploadData } from "@aws-amplify/storage";
 
 const AvailablityPrefrences = () => {
   const {
@@ -46,6 +47,7 @@ const AvailablityPrefrences = () => {
       console.log(availiablityPrefrencesStr);
       const volunteerData = {
         id: userId,
+        image: userId,
         name: onBoardingFormData.name,
         contactNumber: parseInt(onBoardingFormData.phone),
         city: onBoardingFormData.city,
@@ -57,6 +59,17 @@ const AvailablityPrefrences = () => {
       // DataStore.clear();
 
       await DataStore.save(new Volunteer(volunteerData));
+      if (onBoardingFormData.profileImage !== null) {
+        const result = await uploadData({
+          key: userId.toString(),
+          data: onBoardingFormData.profileImage,
+          options: {
+            contentType:
+              "image/jpeg, image/png, image/jpg, image/gif, image/svg",
+          },
+        }).result;
+        console.log("Succeeded", result);
+      }
       // await AsyncStorage.setItem("isOnboardingCompleted", "true");
       setIsOnboardingCompleted(true);
     } catch (e) {
