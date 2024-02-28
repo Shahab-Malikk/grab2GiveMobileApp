@@ -11,14 +11,20 @@ import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const PersonalInformation = () => {
-  const { onBoardingFormData, setOnBoardingFormData } = useUserData();
+  const { onBoardingFormData, setOnBoardingFormData, userImage, setUserImage } =
+    useUserData();
   const [name, setName] = useState(onBoardingFormData.name);
   const [phone, setPhone] = useState(onBoardingFormData.phone);
   const [profileImage, setProfileImage] = useState(null);
   const dispatch = useDispatch();
 
   const handleNext = () => {
-    setOnBoardingFormData((prevData) => ({ ...prevData, name, phone }));
+    setOnBoardingFormData((prevData) => ({
+      ...prevData,
+      name,
+      phone,
+      profileImage,
+    }));
 
     dispatch(nextStep());
     dispatch(incrementFormProgress());
@@ -33,13 +39,20 @@ const PersonalInformation = () => {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.canceled) {
-      setProfileImage(result.assets[0].uri);
+      setUserImage(result.assets[0].uri);
+      const imagetoUpload = result.assets[0];
+
+      try {
+        const response = await fetch(imagetoUpload.uri);
+        const blob = await response.blob();
+        console.log("blob", blob);
+        setProfileImage(blob);
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
-
   useEffect(() => {
     async function getId() {
       const userId = await AsyncStorage.getItem("userId");
@@ -54,8 +67,8 @@ const PersonalInformation = () => {
         <View className="p-1 rounded-full border-2 border-gray-300 w-24 h-24">
           <Image
             source={
-              profileImage
-                ? { uri: profileImage }
+              userImage
+                ? { uri: userImage }
                 : require("../../../assets/volunteer1.webp")
             }
             className="w-[100%] h-[100%] rounded-full mb-4"

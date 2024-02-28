@@ -33,7 +33,7 @@ const ProfileMain = () => {
     }
   };
 
-  const pickImage = async () => {
+  const pickNUploadImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -42,24 +42,18 @@ const ProfileMain = () => {
       quality: 1,
     });
 
-    console.log(result);
-    console.log("assesst ", result.assets[0]);
-
     if (!result.canceled) {
       setUserImage(result.assets[0].uri);
-      const imagetoUpload = result.assets[0].uri;
-      try {
-        // const response = await fetch(imagetoUpload);
-        // const blob = await response.blob();
-        // console.log("blob", blob);
+      const imagetoUpload = result.assets[0];
 
-        // const file = new File([blob], "imageName.jpg", {
-        //   type: "image/jpeg, image/png, image/svg, image/jpg",
-        // });
+      try {
+        const response = await fetch(imagetoUpload.uri);
+        const blob = await response.blob();
+        console.log("blob", blob);
 
         const result = await uploadData({
           key: currentUserData.id.toString(),
-          data: result.assets[0],
+          data: blob,
           options: {
             contentType:
               "image/jpeg, image/png, image/jpg, image/gif, image/svg",
@@ -82,17 +76,15 @@ const ProfileMain = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("user data Image", currentUserData.profileImage);
-  }, []);
+  useEffect(() => {}, []);
   return (
     <View className="flex-1 flex flex-col mt-12 px-4">
       <View className="flex flex-col justify-center items-center">
         <View className="p-1 rounded-full border-2 border-gray-300 w-24 h-24">
           <Image
             source={
-              currentUserData.profileImage
-                ? { uri: currentUserData.profileImage }
+              userImage
+                ? { uri: userImage }
                 : require("../../../assets/volunteer1.webp")
             }
             className="w-[100%] h-[100%] rounded-full mb-4"
@@ -100,11 +92,11 @@ const ProfileMain = () => {
         </View>
         <Pressable
           className="rounded-md mb-4 mt-2 flex items-center"
-          onPress={pickImage}
+          onPress={pickNUploadImage}
         >
           <Ionicons name="pencil-outline" size={24} color="black" />
         </Pressable>
-        <Text className="text-lg font-bold mt-2">Arsalan</Text>
+        <Text className="text-lg font-bold mt-2">{currentUserData.name}</Text>
       </View>
       <View className="flex flex-1 flex-col justify-start items-start mt-10">
         <Pressable

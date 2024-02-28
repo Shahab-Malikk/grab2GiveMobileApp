@@ -72,17 +72,19 @@ export const UserDataProvider = ({ children }) => {
     } else {
       setIsOnboardingCompleted(false);
     }
-
     if (userData.image) {
       const image = await getUrl({
         key: userData.image,
       });
-      console.log("Image", result);
+
       const updatedUserData = {
         ...userData,
-        profileImage: image,
+        profileImage: image.url,
       };
+
+      setUserImage(image.url.toString());
     }
+
     setCurrentUserData(userData);
   };
 
