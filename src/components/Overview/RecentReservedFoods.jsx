@@ -28,7 +28,7 @@ const RecentReservedFoods = () => {
       <ScrollView
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        className="px-10"
+        className="ml-[5%] w-[90%]"
       >
         {foodListReservedByNgos.map((item) => (
           <ReservedFoodHomeScreenCard

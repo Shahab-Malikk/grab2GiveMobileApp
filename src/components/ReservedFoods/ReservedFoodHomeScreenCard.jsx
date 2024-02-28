@@ -37,7 +37,7 @@ const ReservedFoodHomeScreenCard = (props) => {
   };
 
   return (
-    <View className="flex flex-col mb-4 bg-white p-4">
+    <View className="flex-1  flex-col mb-4 bg-white p-4 mr-4">
       <Image
         source={require("../../../assets/meal1.png")}
         className="w-[100%] h-24 rounded-md mr-2"
