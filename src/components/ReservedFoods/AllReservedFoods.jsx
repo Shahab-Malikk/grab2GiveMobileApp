@@ -34,9 +34,11 @@ const AllReservedFoods = () => {
   ];
   return (
     <View className="px-4">
-      <Text className="text-lg font-bold text-base800">Upcoming Pickups</Text>
+      <Text className="text-lg font-bold text-base800">
+        Recent Reservations
+      </Text>
       <Text className="text-lightGrey mt-2">
-        Here are all your upcoming pickups.
+        Here are recent reservations made by your followed NGOs.
       </Text>
       <View className="flex-1">
         <ScrollView className="mt-7">
