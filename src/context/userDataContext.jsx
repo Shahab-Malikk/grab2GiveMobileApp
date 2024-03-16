@@ -15,7 +15,7 @@ export const useUserData = () => {
 export const UserDataProvider = ({ children }) => {
   const [onBoardingFormData, setOnBoardingFormData] = useState({
     name: "Malik",
-    profileImage: "",
+    profileImage: null,
     phone: "",
     city: "",
     profession: "Software Engineer",
@@ -46,9 +46,11 @@ export const UserDataProvider = ({ children }) => {
     const user = await getCurrentUser();
     if (user) {
       setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+      setIsLoading(false);
     }
     console.log(user);
-    setIsLoading(false);
   };
 
   async function handleFetchUserAttributes() {
@@ -86,6 +88,7 @@ export const UserDataProvider = ({ children }) => {
     }
 
     setCurrentUserData(userData);
+    setIsLoading(false);
   };
 
   const getNgosFromDb = async () => {

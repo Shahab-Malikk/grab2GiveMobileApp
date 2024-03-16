@@ -11,7 +11,7 @@ const RecentReservedFoods = () => {
   const navigateToPickups = () => {
     navigation.navigate("Explore");
   };
-
+  
   return (
     <>
       <View className="px-10 mt-28">

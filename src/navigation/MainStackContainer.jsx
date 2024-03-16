@@ -36,7 +36,9 @@ const MainStackContainer = () => {
     console.log("checking if user is logged in");
 
     DataStore.start().then(() => {
-      checkIfUserIsLoggedIn();
+      checkIfUserIsLoggedIn().then(() => {
+        console.log("user is logged in", isLoggedIn);
+      });
     });
   }, [isLoggedIn]);
 
@@ -54,62 +56,110 @@ const MainStackContainer = () => {
     });
   }, [isLoggedIn]);
 
-  // if (isLoading) {
-  //   return (
-  //     <Stack.Screen
-  //       name="Splash"
-  //       component={SplashScreen}
-  //       options={{ headerShown: false }}
-  //     />
-  //   );
-  // } else
-
   const screenToRender = () => {
-    if (isFirstLaunched !== null && isLoggedIn && isOnboardingCompleted) {
+    // if (isLoading) {
+    //   return (
+    //     <Stack.Screen
+    //       name="Splash"
+    //       component={SplashScreen}
+    //       options={{ headerShown: false }}
+    //     />
+    //   );
+    // } else if (
+    //   isFirstLaunched !== null &&
+    //   isLoggedIn &&
+    //   isOnboardingCompleted
+    // ) {
+    //   return (
+    //     <>
+    //       <Stack.Screen
+    //         name="Home"
+    //         component={TabContainer}
+    //         options={{ headerShown: false }}
+    //       />
+    //       <Stack.Screen
+    //         name="PersonalInfo"
+    //         component={PersonalInformationScreen}
+    //         options={{ headerShown: false }}
+    //       />
+    //       <Stack.Screen
+    //         name="UpdatePassword"
+    //         component={UpdatePasswordScreen}
+    //         options={{ headerShown: false }}
+    //       />
+    //     </>
+    //   );
+    // } else if (
+    //   isFirstLaunched !== null &&
+    //   isLoggedIn &&
+    //   !isOnboardingCompleted
+    // ) {
+    //   return (
+    //     <>
+    //       <Stack.Screen
+    //         name="PreOnboarding"
+    //         component={PreOnboardingScreen}
+    //         options={{ headerShown: false }}
+    //       />
+    //       <Stack.Screen
+    //         name="Onboarding"
+    //         component={OnBoardingScreen}
+    //         options={{ headerShown: false }}
+    //       />
+    //       <Stack.Screen
+    //         name="PostOnboarding"
+    //         component={PostOnboardingScreen}
+    //         options={{ headerShown: false }}
+    //       />
+    //     </>
+    //   );
+    // } else if (isFirstLaunched !== null && !isLoggedIn) {
+    //   return (
+    //     <>
+    //       <Stack.Screen
+    //         name="Login"
+    //         component={LoginScreen}
+    //         options={{ headerShown: false }}
+    //       />
+    //       <Stack.Screen
+    //         name="Signup"
+    //         component={SignupScreen}
+    //         options={{ headerShown: false }}
+    //       />
+    //       <Stack.Screen
+    //         name="CodeConfirmation"
+    //         component={CodeCondirmationScreen}
+    //         options={{ headerShown: false }}
+    //       />
+    //     </>
+    //   );
+    // } else {
+    //   return (
+    //     <Stack.Screen
+    //       name="About"
+    //       component={AboutScreen}
+    //       options={{ headerShown: false }}
+    //     />
+    //   );
+    // }
+
+    if (isLoading) {
       return (
-        <>
-          <Stack.Screen
-            name="Home"
-            component={TabContainer}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="PersonalInfo"
-            component={PersonalInformationScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="UpdatePassword"
-            component={UpdatePasswordScreen}
-            options={{ headerShown: false }}
-          />
-        </>
+        <Stack.Screen
+          name="Splash"
+          component={SplashScreen}
+          options={{ headerShown: false }}
+        />
       );
-    } else if (
-      isFirstLaunched !== null &&
-      isLoggedIn &&
-      !isOnboardingCompleted
-    ) {
+    } else if (isFirstLaunched) {
       return (
-        <>
-          <Stack.Screen
-            name="PreOnboarding"
-            component={PreOnboardingScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Onboarding"
-            component={OnBoardingScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="PostOnboarding"
-            component={PostOnboardingScreen}
-            options={{ headerShown: false }}
-          />
-        </>
+        <Stack.Screen
+          name="About"
+          component={AboutScreen}
+          options={{ headerShown: false }}
+        />
       );
-    } else if (isFirstLaunched !== null && !isLoggedIn) {
+    } else if (!isLoggedIn) {
       return (
         <>
           <Stack.Screen
@@ -129,13 +179,45 @@ const MainStackContainer = () => {
           />
         </>
       );
+    } else if (!isOnboardingCompleted) {
+      return (
+        <>
+          <Stack.Screen
+            name="PreOnboarding"
+            component={PreOnboardingScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Onboarding"
+            component={OnBoardingScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="PostOnboarding"
+            component={PostOnboardingScreen}
+            options={{ headerShown: false }}
+          />
+        </>
+      );
     } else {
       return (
-        <Stack.Screen
-          name="About"
-          component={AboutScreen}
-          options={{ headerShown: false }}
-        />
+        <>
+          <Stack.Screen
+            name="Home"
+            component={TabContainer}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="PersonalInfo"
+            component={PersonalInformationScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="UpdatePassword"
+            component={UpdatePasswordScreen}
+            options={{ headerShown: false }}
+          />
+        </>
       );
     }
   };

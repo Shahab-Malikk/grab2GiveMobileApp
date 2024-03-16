@@ -42,7 +42,6 @@ const PersonalInformation = () => {
     if (!result.canceled) {
       setUserImage(result.assets[0].uri);
       const imagetoUpload = result.assets[0];
-
       try {
         const response = await fetch(imagetoUpload.uri);
         const blob = await response.blob();
