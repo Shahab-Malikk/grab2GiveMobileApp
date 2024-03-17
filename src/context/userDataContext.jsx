@@ -5,6 +5,7 @@ import { DataStore } from "@aws-amplify/datastore";
 import { Volunteer, Ngo, VolunteerNgo, ReservationRequest } from "../models";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { downloadData, getUrl } from "aws-amplify/storage";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 const UserDataContext = createContext();
 
@@ -42,15 +43,18 @@ export const UserDataProvider = ({ children }) => {
   const ngosArr = [];
 
   const checkIfUserIsLoggedIn = async () => {
-    setIsLoading(true);
-    const user = await getCurrentUser();
-    if (user) {
+    try {
+      const { username, userId, signInDetails } = await getCurrentUser();
+      console.log("User is logged in", username, userId, signInDetails);
       setIsLoggedIn(true);
-    } else {
+      getUserData().then(() => {
+        setIsLoading(false);
+      });
+    } catch (e) {
       setIsLoggedIn(false);
       setIsLoading(false);
+      console.log(e);
     }
-    console.log(user);
   };
 
   async function handleFetchUserAttributes() {
@@ -88,7 +92,6 @@ export const UserDataProvider = ({ children }) => {
     }
 
     setCurrentUserData(userData);
-    setIsLoading(false);
   };
 
   const getNgosFromDb = async () => {
@@ -239,11 +242,9 @@ export const UserDataProvider = ({ children }) => {
     } catch (e) {
       console.log(e);
     }
-    setIsLoading(false);
   };
 
   const checkOnboardingStatus = async () => {
-    setIsLoading(true);
     try {
       AsyncStorage.getItem("isOnboardingCompleted").then((value) => {
         if (value === null) {
@@ -256,7 +257,6 @@ export const UserDataProvider = ({ children }) => {
     } catch (e) {
       console.log(e);
     }
-    setIsLoading(false);
   };
 
   return (

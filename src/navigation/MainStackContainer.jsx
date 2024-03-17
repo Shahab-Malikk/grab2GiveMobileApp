@@ -32,29 +32,26 @@ const MainStackContainer = () => {
     setIsLoading,
   } = useUserData();
   useEffect(() => {
-    setIsLoading(true);
     console.log("checking if user is logged in");
 
     DataStore.start().then(() => {
-      checkIfUserIsLoggedIn().then(() => {
-        console.log("user is logged in", isLoggedIn);
-      });
+      checkIfUserIsLoggedIn();
     });
-  }, [isLoggedIn]);
+  }, [isLoggedIn, isOnboardingCompleted]);
 
   useEffect(() => {
     checkIfFirstLaunched();
   }, []);
 
-  useEffect(() => {
-    console.log("checking onboarding status");
-    DataStore.start().then(() => {
-      if (isLoggedIn) {
-        getUserData();
-      }
-      setIsLoading(false);
-    });
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   console.log("checking onboarding status");
+  //   DataStore.start().then(() => {
+  //     if (isLoggedIn) {
+  //       getUserData();
+  //     }
+  //     setIsLoading(false);
+  //   });
+  // }, [isLoggedIn]);
 
   const screenToRender = () => {
     // if (isLoading) {

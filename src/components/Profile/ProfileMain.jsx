@@ -12,10 +12,11 @@ import { Volunteer } from "../../models";
 const ProfileMain = () => {
   const {
     getUserData,
-    setIsLoggedIn,
     userImage,
     setUserImage,
     currentUserData,
+    setIsLoggedIn,
+    setIsLoading,
   } = useUserData();
   const navigation = useNavigation();
   const handleLogout = async () => {
@@ -27,6 +28,7 @@ const ProfileMain = () => {
         console.log("Datastore cleared");
       });
       setIsLoggedIn(false);
+      setIsLoading(false);
       // navigation.navigate("Login");
     } catch (e) {
       console.log(e);
