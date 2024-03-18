@@ -19,7 +19,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -27,7 +29,11 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/g2gLogo.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.shahabmalik.grab2giveApp"
     },
     "web": {
       "favicon": "./assets/g2gLogo.png"
