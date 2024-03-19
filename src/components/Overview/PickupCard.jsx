@@ -1,9 +1,36 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Pressable } from "react-native";
 import React from "react";
+import { DataStore } from "@aws-amplify/datastore";
+import { ReservationRequest, Food } from "../../models";
 
 const PickupCard = (props) => {
-  const { hotelName, ngoName, date, foodName, reservationRequestId, status } =
-    props.data;
+  const {
+    hotelName,
+    ngoName,
+    date,
+    foodName,
+    reservationRequestId,
+    status,
+    foodId,
+  } = props.data;
+  const deliverFood = async () => {
+    const oldFoodValue = await DataStore.query(Food, foodId);
+
+    const updated = await DataStore.save(
+      Food.copyOf(oldFoodValue, (updated) => {
+        updated.foodStatus = "Delivered";
+      })
+    );
+    const oldReservationRequest = await DataStore.query(
+      ReservationRequest,
+      reservationRequestId
+    );
+    const updatedReservationRequest = await DataStore.save(
+      ReservationRequest.copyOf(oldReservationRequest, (updated) => {
+        updated.status = "Delivered";
+      })
+    );
+  };
   return (
     <View className="flex-1 justify-between flex-row p-4 bg-white rounded-sm mb-4">
       <Image
@@ -26,6 +53,12 @@ const PickupCard = (props) => {
             <Text>10 June, 2023</Text>
           </View>
         </View>
+        <Pressable
+          onPress={deliverFood}
+          className="flex-1 items-center py-2 bg-black rounded-md"
+        >
+          <Text className="text-white">Mark As Delivered</Text>
+        </Pressable>
       </View>
     </View>
   );

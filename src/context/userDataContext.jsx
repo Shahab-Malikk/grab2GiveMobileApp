@@ -140,6 +140,7 @@ export const UserDataProvider = ({ children }) => {
     for (let i = 0; i < reservationRequest.length; i++) {
       const reservationRequestId = reservationRequest[i].id;
       const food = await reservationRequest[i].food;
+      const foodId = food.id;
       const ngo = await reservationRequest[i].ngo;
       const hotel = await reservationRequest[i].hotel;
       const status = await reservationRequest[i].status;
@@ -148,6 +149,7 @@ export const UserDataProvider = ({ children }) => {
       const date = reservationRequest[i].updatedAt;
       const foodName = food.name;
       const pickupObj = {
+        foodId,
         reservationRequestId,
         hotelName,
         ngoName,
@@ -175,10 +177,15 @@ export const UserDataProvider = ({ children }) => {
       const request = await DataStore.query(ReservationRequest, (c) =>
         c.and((c) => [c.ngoId.eq(connectedNgos[i]), c.volunteerID.eq(userId)])
       );
-      reservationRequest = [...reservationRequest, ...request];
+
+      if (request.status !== "Delivered") {
+        console.log("This is request");
+        console.log(request);
+        reservationRequest = [...reservationRequest, ...request];
+      }
     }
     reservationRequest.forEach((item) => {
-      if (item.status === "Completed") {
+      if (item.status === "Delivered") {
         setNoOfCompletedDeliveries((prev) => prev + 1);
       }
       if (item.status === "VOLUNTEERED") {
@@ -191,6 +198,7 @@ export const UserDataProvider = ({ children }) => {
     for (let i = 0; i < reservationRequest.length; i++) {
       const reservationRequestId = reservationRequest[i].id;
       const food = await reservationRequest[i].food;
+      const foodId = food.id;
       const ngo = await reservationRequest[i].ngo;
       const hotel = await reservationRequest[i].hotel;
       const status = await reservationRequest[i].status;
@@ -199,6 +207,7 @@ export const UserDataProvider = ({ children }) => {
       const date = reservationRequest[i].updatedAt;
       const foodName = food.name;
       const pickupObj = {
+        foodId,
         reservationRequestId,
         hotelName,
         ngoName,
@@ -207,7 +216,9 @@ export const UserDataProvider = ({ children }) => {
         status,
       };
       console.log(pickupObj);
-      foodList.push(pickupObj);
+      if (reservationRequest[i].status !== "Delivered") {
+        foodList.push(pickupObj);
+      }
     }
     const uniqueList = new Set(foodList);
 
