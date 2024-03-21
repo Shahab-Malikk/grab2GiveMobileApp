@@ -8,6 +8,7 @@ import { DataStore } from "@aws-amplify/datastore";
 import * as ImagePicker from "expo-image-picker";
 import { uploadData } from "@aws-amplify/storage";
 import { Volunteer } from "../../models";
+import showToast from "../utils/Toast";
 
 const ProfileMain = () => {
   const {
@@ -72,8 +73,10 @@ const ProfileMain = () => {
             updated.image = result.key;
           })
         );
+        showToast("Image Uploaded Successfully", "green");
       } catch (e) {
         console.log(e);
+        showToast("Something went wrong", "red");
       }
     }
   };

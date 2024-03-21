@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { DataStore } from "@aws-amplify/datastore";
 import { VolunteerNgo } from "../../models";
 import { useUserData } from "../../context/userDataContext";
+import showToast from "../utils/Toast";
 
 const NgoCard = (props) => {
   const [isNgoFollowed, setIsNgoFollowed] = useState(false);
@@ -34,8 +35,10 @@ const NgoCard = (props) => {
         ngos.filter((item) => !currentUserNgos.includes(item.id))
       );
       await getFoodListReservedByNgos(ngosArr);
+      showToast("Ngo Followed Successfully", "green");
     } catch (e) {
       console.log(e);
+      showToast("Something went wrong", "red");
     }
   };
 
@@ -61,8 +64,10 @@ const NgoCard = (props) => {
         ngos.filter((item) => !currentUserNgos.includes(item.id))
       );
       await getFoodListReservedByNgos(ngosArr);
+      showToast("Ngo Unfollowed Successfully", "green");
     } catch (e) {
       console.log(e);
+      showToast("Something went wrong", "red");
     }
   };
 

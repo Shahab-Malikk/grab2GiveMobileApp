@@ -8,6 +8,7 @@ import { useUserData } from "../../context/userDataContext";
 import { DataStore } from "@aws-amplify/datastore";
 import { Volunteer } from "../../models";
 import BtnBack from "../utils/BtnBack";
+import showToast from "../utils/Toast";
 
 const PersonalInformation = () => {
   const { currentUserData, userId, setCurrentUserData } = useUserData();
@@ -47,19 +48,25 @@ const PersonalInformation = () => {
   };
 
   const saveData = async () => {
-    const oldVolunteerData = await DataStore.query(Volunteer, userId);
+    try {
+      const oldVolunteerData = await DataStore.query(Volunteer, userId);
 
-    const updatedData = await DataStore.save(
-      Volunteer.copyOf(oldVolunteerData, (updated) => {
-        updated.name = name;
-        updated.contactNumber = parseInt(phone);
-        updated.city = city;
-        updated.hobbies = profession;
-        updated.availableDays = availablityPrefrences.toString();
-      })
-    );
-    console.log(updatedData);
-    setCurrentUserData(updatedData);
+      const updatedData = await DataStore.save(
+        Volunteer.copyOf(oldVolunteerData, (updated) => {
+          updated.name = name;
+          updated.contactNumber = parseInt(phone);
+          updated.city = city;
+          updated.hobbies = profession;
+          updated.availableDays = availablityPrefrences.toString();
+        })
+      );
+      console.log(updatedData);
+      setCurrentUserData(updatedData);
+      showToast("Data Updated Successfully", "green");
+    } catch (e) {
+      console.log(e);
+      showToast("Something went wrong", "red");
+    }
   };
 
   const enableFields = () => {

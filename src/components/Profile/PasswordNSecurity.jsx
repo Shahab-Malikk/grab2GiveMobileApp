@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { updatePassword } from "aws-amplify/auth";
 import BtnBack from "../utils/BtnBack";
+import showToast from "../utils/Toast";
 
 const PasswordNSecurity = () => {
   const [oldPassword, setOldPassword] = useState("");
@@ -13,15 +14,25 @@ const PasswordNSecurity = () => {
 
   const handleUpdatePassword = async () => {
     if (oldPassword === "" || newPassword === "") {
-      alert("All fields are required");
+      showToast("Please fill all the fields", "red");
       return;
     }
+    if (newPassword !== confirmPassword) {
+      showToast("Password does not match", "red");
+      return;
+    }
+
     console.log(oldPassword, newPassword);
     try {
       await updatePassword({ oldPassword, newPassword });
       console.log("Password updated successfully");
     } catch (e) {
       console.log(e);
+      if (e.code === "NotAuthorizedException") {
+        showToast("Old password is incorrect", "red");
+      } else {
+        showToast("Something went wrong", "red");
+      }
     }
   };
 
