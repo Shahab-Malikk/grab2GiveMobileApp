@@ -3,12 +3,21 @@ import React from "react";
 import { useUserData } from "../../context/userDataContext";
 import { ReservationRequest } from "../../models";
 import { DataStore } from "@aws-amplify/datastore";
+import Toast from "react-native-root-toast";
+import showToast from "../utils/Toast";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 const ReservedFoodCard = (props) => {
   const { hotelName, ngoName, date, foodName, reservationRequestId, status } =
     props.data;
-  const { setFoodListReservedByNgos, foodListReservedByNgos, userId } =
-    useUserData();
+  const {
+    setFoodListReservedByNgos,
+    foodListReservedByNgos,
+    userId,
+    getUpComingDeliveries,
+    getNgosOfCurrentVolunteer,
+    ngosArr,
+  } = useUserData();
   const formatDate = (date) => {
     const d = new Date(date);
     return `${d.getDate()} ${d.toLocaleString("default", {
@@ -17,23 +26,27 @@ const ReservedFoodCard = (props) => {
   };
 
   const beVolunteer = async () => {
-    const oldReservationRequest = await DataStore.query(
-      ReservationRequest,
-      reservationRequestId
-    );
+    try {
+      const oldReservationRequest = await DataStore.query(
+        ReservationRequest,
+        reservationRequestId
+      );
 
-    const updatedResrvationRequest = await DataStore.save(
-      ReservationRequest.copyOf(oldReservationRequest, (updated) => {
-        updated.status = "VOLUNTEERED";
-        updated.volunteerID = userId;
-      })
-    );
-
-    setFoodListReservedByNgos(
-      foodListReservedByNgos.filter(
-        (item) => item.reservationRequestId !== reservationRequestId
-      )
-    );
+      const updatedResrvationRequest = await DataStore.save(
+        ReservationRequest.copyOf(oldReservationRequest, (updated) => {
+          updated.status = "VOLUNTEERED";
+          updated.volunteerID = userId;
+        })
+      );
+      showToast("Volunteered Successfully", "green");
+      // setFoodListReservedByNgos(
+      //   foodListReservedByNgos.filter(
+      //     (item) => item.reservationRequestId !== reservationRequestId
+      //   )
+      // )
+      await getNgosOfCurrentVolunteer();
+      await getUpComingDeliveries(ngosArr);
+    } catch (e) {}
   };
 
   return (

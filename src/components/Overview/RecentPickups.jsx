@@ -12,32 +12,6 @@ const RecentPickups = () => {
     navigation.navigate("Deliveries");
   };
 
-  const recentPickups = [
-    {
-      ngoName: "Al Khidmat Foundation",
-      from: "Alkhair Hotel",
-      to: "Alkhimat Foundation Taxila",
-      date: "10 June, 2023",
-    },
-    {
-      ngoName: "Al Janat Foundation",
-      from: "Alkhair Hotel",
-      to: "Alkhimat Foundation Taxila",
-      date: "10 June, 2023",
-    },
-    {
-      ngoName: "Al Qalab Foundation",
-      from: "Alkhair Hotel",
-      to: "Alkhimat Foundation Taxila",
-      date: "10 June, 2023",
-    },
-    {
-      ngoName: "Al lab Foundation",
-      from: "Alkhair Hotel",
-      to: "Alkhimat Foundation Taxila",
-      date: "10 June, 2023",
-    },
-  ];
 
   return (
     <>

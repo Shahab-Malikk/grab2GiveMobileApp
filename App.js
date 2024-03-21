@@ -15,6 +15,7 @@ import MainStackContainer from "./src/navigation/MainStackContainer";
 import { Provider } from "react-redux";
 import store from "./src/store/store";
 import { UserDataProvider } from "./src/context/userDataContext";
+import { RootSiblingParent } from "react-native-root-siblings";
 Amplify.configure(amplifyconfig);
 
 export default function App() {
@@ -23,17 +24,19 @@ export default function App() {
   }, []);
 
   return (
-    <SafeAreaProvider>
-      <Provider store={store}>
-        <UserDataProvider>
-          <TailwindProvider>
-            <SafeAreaView className="flex-1">
-              <StatusBar style="auto" />
-              <MainStackContainer />
-            </SafeAreaView>
-          </TailwindProvider>
-        </UserDataProvider>
-      </Provider>
-    </SafeAreaProvider>
+    <RootSiblingParent>
+      <SafeAreaProvider>
+        <Provider store={store}>
+          <UserDataProvider>
+            <TailwindProvider>
+              <SafeAreaView className="flex-1">
+                <StatusBar style="auto" />
+                <MainStackContainer />
+              </SafeAreaView>
+            </TailwindProvider>
+          </UserDataProvider>
+        </Provider>
+      </SafeAreaProvider>
+    </RootSiblingParent>
   );
 }

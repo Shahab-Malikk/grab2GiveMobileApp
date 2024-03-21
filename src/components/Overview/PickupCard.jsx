@@ -2,8 +2,20 @@ import { View, Text, Image, Pressable } from "react-native";
 import React from "react";
 import { DataStore } from "@aws-amplify/datastore";
 import { ReservationRequest, Food } from "../../models";
+import showToast from "../utils/Toast";
+import { useUserData } from "../../context/userDataContext";
 
 const PickupCard = (props) => {
+  const {
+    getNgosOfCurrentVolunteer,
+    getUpComingDeliveries,
+    setUpComingDeliveries,
+    upComingDeliveries,
+    setNoOfCompletedDeliveries,
+
+    setNoOfUpcomingDeliveries,
+  } = useUserData();
+
   const {
     hotelName,
     ngoName,
@@ -30,6 +42,14 @@ const PickupCard = (props) => {
         updated.status = "Delivered";
       })
     );
+    showToast("Food Delivered Successfully", "green");
+    setUpComingDeliveries(
+      upComingDeliveries.filter(
+        (item) => item.reservationRequestId !== reservationRequestId
+      )
+    );
+    setNoOfCompletedDeliveries((prevState) => prevState + 1);
+    setNoOfUpcomingDeliveries((prevState) => prevState - 1);
   };
   return (
     <View className="flex-1 justify-between flex-row p-4 bg-white rounded-sm mb-4">

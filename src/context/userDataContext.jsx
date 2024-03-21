@@ -161,7 +161,6 @@ export const UserDataProvider = ({ children }) => {
       foodList.push(pickupObj);
     }
     const uniqueList = new Set(foodList);
-
     setFoodListReservedByNgos([...uniqueList]);
     console.log("Food List Reserved By Ngos");
   };
@@ -221,7 +220,6 @@ export const UserDataProvider = ({ children }) => {
       }
     }
     const uniqueList = new Set(foodList);
-
     setUpComingDeliveries([...uniqueList]);
   };
 
@@ -295,6 +293,7 @@ export const UserDataProvider = ({ children }) => {
         isgettingReservations,
         setFoodListReservedByNgos,
         upComingDeliveries,
+        setUpComingDeliveries,
         getUpComingDeliveries,
         getAllData,
         ngosArr,

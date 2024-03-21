@@ -7,6 +7,7 @@ import RecentPickups from "../components/Overview/RecentPickups";
 import RecentReservedFoods from "../components/Overview/RecentReservedFoods";
 import { useUserData } from "../context/userDataContext";
 import { DataStore } from "@aws-amplify/datastore";
+import { ReservationRequest } from "../models";
 
 const HomeScreen = () => {
   const {
