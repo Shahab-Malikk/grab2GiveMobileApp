@@ -12,6 +12,7 @@ import PostOnboardingScreen from "../screens/PostOnboardingScreen";
 import AboutScreen from "../screens/AboutScreen";
 import CodeCondirmationScreen from "../screens/CodeConfirmationScreen";
 import SplashScreen from "../components/utils/SplashScreen";
+import NotificationsScreen from "../screens/NotificationsScreen";
 import { DataStore } from "@aws-amplify/datastore";
 
 import TabContainer from "./TabContainer";
@@ -212,6 +213,11 @@ const MainStackContainer = () => {
           <Stack.Screen
             name="UpdatePassword"
             component={UpdatePasswordScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Notifications"
+            component={NotificationsScreen}
             options={{ headerShown: false }}
           />
         </>

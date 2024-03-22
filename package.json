@@ -20,6 +20,7 @@
     "@reduxjs/toolkit": "^2.2.1",
     "@shopify/flash-list": "^1.6.3",
     "aws-amplify": "^6.0.16",
+    "date-fns": "^3.6.0",
     "expo": "~50.0.6",
     "expo-image-picker": "~14.7.1",
     "expo-status-bar": "~1.11.1",

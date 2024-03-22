@@ -40,6 +40,8 @@ export const UserDataProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [noOfCompletedDeliveries, setNoOfCompletedDeliveries] = useState(0);
   const [noOfUpcomingDeliveries, setNoOfUpcomingDeliveries] = useState(0);
+  const [isNewNotification, setIsNewNotification] = useState(false);
+  const [notifications, setNotifications] = useState([]);
   const ngosArr = [];
 
   const checkIfUserIsLoggedIn = async () => {
@@ -72,6 +74,7 @@ export const UserDataProvider = ({ children }) => {
     const userId = userAttributes.sub;
     const userData = await DataStore.query(Volunteer, userId);
     console.log(userData);
+
     setUserName(userData.name);
     if (userData.name !== null) {
       setIsOnboardingCompleted(true);
@@ -268,6 +271,20 @@ export const UserDataProvider = ({ children }) => {
     }
   };
 
+  const getNotifications = async (userData) => {
+    let notificationsFromDb = [];
+    userData.notifications.values.then((data) => {
+      console.log("Notifications");
+      console.log(data);
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].status === "unread") {
+          setIsNewNotification(true);
+        }
+      }
+      setNotifications(data);
+    });
+  };
+
   return (
     <UserDataContext.Provider
       value={{
@@ -316,6 +333,11 @@ export const UserDataProvider = ({ children }) => {
         setNoOfUpcomingDeliveries,
         userImage,
         setUserImage,
+        getNotifications,
+        isNewNotification,
+        setIsNewNotification,
+        notifications,
+        setNotifications,
       }}
     >
       {children}

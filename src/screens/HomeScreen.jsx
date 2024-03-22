@@ -22,6 +22,8 @@ const HomeScreen = () => {
     getAllData,
     getUpComingDeliveries,
     ngosArr,
+    getNotifications,
+    currentUserData,
   } = useUserData();
 
   const fetchData = async () => {
@@ -29,6 +31,7 @@ const HomeScreen = () => {
     await getNgosOfCurrentVolunteer();
     await getFoodListReservedByNgos(ngosArr);
     await getUpComingDeliveries(ngosArr);
+    await getNotifications(currentUserData);
   };
 
   useEffect(() => {
