@@ -14,13 +14,6 @@ const ExploreScreen = () => {
     getUpComingDeliveries,
   } = useUserData();
 
-  DataStore.observe(ReservationRequest).subscribe(async (msg) => {
-    console.log("Subscription");
-    console.log(msg.model, msg.opType, msg.element);
-    await getNgosOfCurrentVolunteer();
-    await getFoodListReservedByNgos(ngosArr);
-  });
-
   return (
     <SafeAreaView className="flex-1 px-4 py-4  bg-bgLight">
       <AllReservedFoods />
