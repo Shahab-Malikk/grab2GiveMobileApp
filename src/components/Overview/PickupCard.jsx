@@ -1,7 +1,7 @@
 import { View, Text, Image, Pressable } from "react-native";
 import React from "react";
 import { DataStore } from "@aws-amplify/datastore";
-import { ReservationRequest, Food } from "../../models";
+import { ReservationRequest, Food, Notification } from "../../models";
 import showToast from "../utils/Toast";
 import { useUserData } from "../../context/userDataContext";
 
@@ -24,7 +24,9 @@ const PickupCard = (props) => {
     reservationRequestId,
     status,
     foodId,
+    volunteerId,
   } = props.data;
+
   const deliverFood = async () => {
     const oldFoodValue = await DataStore.query(Food, foodId);
 
@@ -48,6 +50,13 @@ const PickupCard = (props) => {
         (item) => item.reservationRequestId !== reservationRequestId
       )
     );
+    const notificationData = {
+      volunteerId: volunteerId,
+      status: "unread",
+      content: `Thanks for delivering ${foodName} to ${ngoName}. Keep up the good work!`,
+    };
+    await DataStore.save(new Notification(notificationData));
+
     setNoOfCompletedDeliveries((prevState) => prevState + 1);
     setNoOfUpcomingDeliveries((prevState) => prevState - 1);
   };

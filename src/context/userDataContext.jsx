@@ -175,6 +175,7 @@ export const UserDataProvider = ({ children }) => {
     const connectedNgos = ngosArray;
 
     let reservationRequest = [];
+    let volunteerId = userId;
     for (let i = 0; i < connectedNgos.length; i++) {
       const request = await DataStore.query(ReservationRequest, (c) =>
         c.and((c) => [c.ngoId.eq(connectedNgos[i]), c.volunteerID.eq(userId)])
@@ -208,6 +209,7 @@ export const UserDataProvider = ({ children }) => {
       const ngoName = ngo.name;
       const date = reservationRequest[i].updatedAt;
       const foodName = food.name;
+
       const pickupObj = {
         foodId,
         reservationRequestId,
@@ -216,6 +218,7 @@ export const UserDataProvider = ({ children }) => {
         date,
         foodName,
         status,
+        volunteerId,
       };
       console.log(pickupObj);
       if (reservationRequest[i].status !== "Delivered") {
