@@ -15,7 +15,7 @@ export const useUserData = () => {
 
 export const UserDataProvider = ({ children }) => {
   const [onBoardingFormData, setOnBoardingFormData] = useState({
-    name: "Malik",
+    name: "",
     profileImage: null,
     phone: "",
     city: "",
@@ -278,16 +278,18 @@ export const UserDataProvider = ({ children }) => {
 
   const getNotifications = async (userData) => {
     let notificationsFromDb = [];
-    userData.notifications.values.then((data) => {
-      console.log("Notifications");
-      console.log(data);
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].status === "unread") {
-          setIsNewNotification(true);
+    if (userData.notifications !== undefined) {
+      userData.notifications.values.then((data) => {
+        console.log("Notifications");
+        console.log(data);
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].status === "unread") {
+            setIsNewNotification(true);
+          }
         }
-      }
-      setNotifications(data);
-    });
+        setNotifications(data);
+      });
+    }
   };
 
   return (

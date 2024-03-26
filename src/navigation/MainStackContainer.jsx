@@ -38,7 +38,7 @@ const MainStackContainer = () => {
     DataStore.start().then(() => {
       checkIfUserIsLoggedIn();
     });
-  }, [isLoggedIn, isOnboardingCompleted]);
+  }, [isLoggedIn]);
 
   useEffect(() => {
     checkIfFirstLaunched();
