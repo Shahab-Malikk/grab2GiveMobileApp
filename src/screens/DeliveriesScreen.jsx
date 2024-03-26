@@ -1,33 +1,32 @@
-import { View, Text, SafeAreaView } from "react-native";
+import { View, Text, SafeAreaView, RefreshControl } from "react-native";
 import React, { useEffect } from "react";
 import AllUpComingPickups from "../components/Deliveries/AllUpComingPickups";
 import { useUserData } from "../context/userDataContext";
 import { DataStore } from "@aws-amplify/datastore";
 import { ReservationRequest } from "../models";
+import { ScrollView } from "react-native-gesture-handler";
 
 const DeliveriesScreen = () => {
   const { getUpComingDeliveries, getNgosOfCurrentVolunteer, ngosArr } =
     useUserData();
-  const getData = async () => {
-    await getUpComingDeliveries();
-    await getNgosOfCurrentVolunteer(ngosArr);
-  };
-  useEffect(() => {
-    console.log("DeliveriesScreen: useEffect called");
-    getData();
-  }, []);
-
-  DataStore.observe(ReservationRequest).subscribe(async (msg) => {
-    console.log("Subscription");
-    console.log(msg.model, msg.opType, msg.element);
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
+  const fetchData = async () => {
+    setIsRefreshing(true);
     await getNgosOfCurrentVolunteer();
-    await getFoodListReservedByNgos();
-  });
+    await getUpComingDeliveries(ngosArr);
+
+    setIsRefreshing(false);
+  };
 
   return (
-    <SafeAreaView className="flex-1 px-4 bg-bgLight">
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={isRefreshing} onRefresh={fetchData} />
+      }
+      className="flex-1 px-4 bg-bgLight"
+    >
       <AllUpComingPickups />
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 

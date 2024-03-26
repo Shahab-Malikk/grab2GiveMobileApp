@@ -16,11 +16,7 @@ const HomeScreen = () => {
     getNgosOfCurrentVolunteer,
     getFoodListReservedByNgos,
     userId,
-    ngos,
-    currentUserNgos,
-    foodListReservedByNgos,
-    isgettingReservations,
-    getAllData,
+
     getUpComingDeliveries,
     ngosArr,
     getNotifications,

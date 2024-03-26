@@ -15,7 +15,7 @@ const NotificationCard = (props) => {
     >
       <Text className="text-sm text-base500 mt-2">{content}</Text>
       {/* Right Aligned Time */}
-      <Text className="text-xs text-base500 mt-2 text-right">
+      <Text className="text-xs font-semibold text-base500 mt-2 text-right">
         {fToNow(createdAt)}
       </Text>
     </Pressable>

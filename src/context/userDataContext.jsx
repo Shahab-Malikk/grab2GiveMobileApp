@@ -69,6 +69,7 @@ export const UserDataProvider = ({ children }) => {
     }
   }
   const getUserData = async () => {
+    setUserImage(null);
     const userAttributes = await fetchUserAttributes();
     setUserId(userAttributes.sub);
     const userId = userAttributes.sub;
@@ -171,7 +172,8 @@ export const UserDataProvider = ({ children }) => {
   const getUpComingDeliveries = async (ngosArray) => {
     console.log("Getting Upcoming Deliveries");
     setIsGettingReservations(true);
-
+    setNoOfCompletedDeliveries(0);
+    setNoOfUpcomingDeliveries(0);
     const connectedNgos = ngosArray;
 
     let reservationRequest = [];
