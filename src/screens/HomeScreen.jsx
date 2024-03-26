@@ -9,6 +9,7 @@ import { useUserData } from "../context/userDataContext";
 import { DataStore } from "@aws-amplify/datastore";
 import { ReservationRequest } from "../models";
 import { ScrollView } from "react-native-gesture-handler";
+import NoData from "../components/Overview/NoData";
 
 const HomeScreen = () => {
   const {
@@ -16,11 +17,12 @@ const HomeScreen = () => {
     getNgosOfCurrentVolunteer,
     getFoodListReservedByNgos,
     userId,
-
+    foodListReservedByNgos,
     getUpComingDeliveries,
     ngosArr,
     getNotifications,
     currentUserData,
+    upComingDeliveries,
   } = useUserData();
   const [isRefreshing, setIsRefreshing] = React.useState(false);
 
@@ -50,8 +52,16 @@ const HomeScreen = () => {
     >
       <Banner />
       <Stats />
-      <RecentReservedFoods />
-      <RecentPickups />
+      {foodListReservedByNgos.length === 0 ? (
+        <View className="mt-28"></View>
+      ) : (
+        <RecentReservedFoods />
+      )}
+
+      {upComingDeliveries.length === 0 ? <></> : <RecentPickups />}
+
+      {upComingDeliveries.length === 0 &&
+        foodListReservedByNgos.length === 0 && <NoData></NoData>}
     </ScrollView>
   );
 };

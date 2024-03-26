@@ -11,9 +11,10 @@ const RecentReservedFoods = () => {
   const navigateToPickups = () => {
     navigation.navigate("Explore");
   };
-  
+
   return (
     <>
+      {foodListReservedByNgos.length === 0 && <></>}
       <View className="px-10 mt-28">
         <View className="flex flex-row justify-between mb-4 items-center">
           <Text className="text-lg font-bold text-base800">
@@ -23,7 +24,6 @@ const RecentReservedFoods = () => {
             <Text className="text-base800">See All</Text>
           </Pressable>
         </View>
-        {foodListReservedByNgos.length === 0 && <Text>No reserved foods</Text>}
       </View>
       <ScrollView
         horizontal={true}

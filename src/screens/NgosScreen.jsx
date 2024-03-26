@@ -15,6 +15,10 @@ const NgosScreen = () => {
     setIsRefreshing(false);
   };
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <ScrollView
       refreshControl={

@@ -7,32 +7,6 @@ import emptyIlls from "../../../assets/emptyIlls.gif";
 const AllUpComingPickups = () => {
   const { upComingDeliveries } = useUserData();
   console.log(upComingDeliveries);
-  const recentPickups = [
-    {
-      ngoName: "Al Khidmat Foundation",
-      from: "Alkhair Hotel",
-      to: "Alkhimat Foundation Taxila",
-      date: "10 June, 2023",
-    },
-    {
-      ngoName: "Al Janat Foundation",
-      from: "Alkhair Hotel",
-      to: "Alkhimat Foundation Taxila",
-      date: "10 June, 2023",
-    },
-    {
-      ngoName: "Al Qalab Foundation",
-      from: "Alkhair Hotel",
-      to: "Alkhimat Foundation Taxila",
-      date: "10 June, 2023",
-    },
-    {
-      ngoName: "Al lab Foundation",
-      from: "Alkhair Hotel",
-      to: "Alkhimat Foundation Taxila",
-      date: "10 June, 2023",
-    },
-  ];
 
   return (
     <View className="px-4 py-4">

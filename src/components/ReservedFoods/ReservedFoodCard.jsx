@@ -3,9 +3,8 @@ import React from "react";
 import { useUserData } from "../../context/userDataContext";
 import { ReservationRequest } from "../../models";
 import { DataStore } from "@aws-amplify/datastore";
-import Toast from "react-native-root-toast";
+
 import showToast from "../utils/Toast";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 const ReservedFoodCard = (props) => {
   const { hotelName, ngoName, date, foodName, reservationRequestId, status } =
@@ -39,11 +38,6 @@ const ReservedFoodCard = (props) => {
         })
       );
       showToast("Volunteered Successfully", "green");
-      // setFoodListReservedByNgos(
-      //   foodListReservedByNgos.filter(
-      //     (item) => item.reservationRequestId !== reservationRequestId
-      //   )
-      // )
       await getNgosOfCurrentVolunteer();
       await getUpComingDeliveries(ngosArr);
     } catch (e) {}
