@@ -76,7 +76,7 @@ const NgoCard = (props) => {
   }, []);
 
   return (
-    <View className="flex flex-col items-center bg-white shadow-md border-2 border-gray-300 py-4 px-3 rounded-md mb-4">
+    <View className="flex flex-col w-[45%] items-center bg-white shadow-md border-2 border-gray-300 py-4 px-3 rounded-md mb-4">
       <Image
         source={require("../../../assets/eidhi.png")}
         className="w-24 h-24 rounded-full"

@@ -12,7 +12,6 @@ const RecentPickups = () => {
     navigation.navigate("Deliveries");
   };
 
-
   return (
     <>
       <View className="px-10 mt-2">

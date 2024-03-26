@@ -88,7 +88,7 @@ const AllNgos = () => {
       </View>
       <View className="flex-1">
         <ScrollView className="mt-4 ">
-          <View className="flex flex-row basis-1/2 flex-wrap justify-between">
+          <View className="flex flex-row basis-1/2 flex-wrap justify-between ">
             {filteredNgos.map((item) => (
               <NgoCard ngo={item} key={item.id} />
             ))}

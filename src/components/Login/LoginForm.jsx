@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { signIn } from "aws-amplify/auth";
 import { useUserData } from "../../context/userDataContext";
+import { DataStore } from "@aws-amplify/datastore";
 
 const LoginForm = () => {
   const { setIsLoggedIn } = useUserData();

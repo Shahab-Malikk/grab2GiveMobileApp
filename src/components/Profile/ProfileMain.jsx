@@ -81,7 +81,6 @@ const ProfileMain = () => {
     }
   };
 
-  useEffect(() => {}, []);
   return (
     <View className="flex-1 flex flex-col mt-12 px-4">
       <View className="flex flex-col justify-center items-center">

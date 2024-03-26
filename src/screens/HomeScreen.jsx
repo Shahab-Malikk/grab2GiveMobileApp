@@ -1,4 +1,4 @@
-import { View, Text, Button, SafeAreaView } from "react-native";
+import { View, Text, Button, SafeAreaView, RefreshControl } from "react-native";
 import React, { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Banner from "../components/Overview/Banner";
@@ -8,6 +8,7 @@ import RecentReservedFoods from "../components/Overview/RecentReservedFoods";
 import { useUserData } from "../context/userDataContext";
 import { DataStore } from "@aws-amplify/datastore";
 import { ReservationRequest } from "../models";
+import { ScrollView } from "react-native-gesture-handler";
 
 const HomeScreen = () => {
   const {
@@ -25,13 +26,16 @@ const HomeScreen = () => {
     getNotifications,
     currentUserData,
   } = useUserData();
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
 
   const fetchData = async () => {
+    setIsRefreshing(true);
     await getUserData();
     await getNgosOfCurrentVolunteer();
     await getFoodListReservedByNgos(ngosArr);
     await getUpComingDeliveries(ngosArr);
     await getNotifications(currentUserData);
+    setIsRefreshing(false);
   };
 
   useEffect(() => {
@@ -42,12 +46,17 @@ const HomeScreen = () => {
 
   const navigation = useNavigation();
   return (
-    <SafeAreaView className="flex-1 bg-bgLight relative">
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={isRefreshing} onRefresh={fetchData} />
+      }
+      className="flex-1 bg-bgLight relative"
+    >
       <Banner />
       <Stats />
       <RecentReservedFoods />
       <RecentPickups />
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 
