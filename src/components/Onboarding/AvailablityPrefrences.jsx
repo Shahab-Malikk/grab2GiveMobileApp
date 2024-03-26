@@ -49,7 +49,7 @@ const AvailablityPrefrences = () => {
         id: userId,
         image: userId,
         name: onBoardingFormData.name,
-        contactNumber: parseInt(onBoardingFormData.phone),
+        contactNumber: Number(onBoardingFormData.phone),
         city: onBoardingFormData.city,
         hobbies: onBoardingFormData.profession,
         availableDays: availiablityPrefrencesStr,
@@ -71,7 +71,6 @@ const AvailablityPrefrences = () => {
         console.log("Succeeded", result);
       }
       // await AsyncStorage.setItem("isOnboardingCompleted", "true");
-      setIsOnboardingCompleted(true);
     } catch (e) {
       console.log(e);
     }

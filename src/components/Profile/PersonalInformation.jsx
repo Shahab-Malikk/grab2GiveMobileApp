@@ -54,7 +54,7 @@ const PersonalInformation = () => {
       const updatedData = await DataStore.save(
         Volunteer.copyOf(oldVolunteerData, (updated) => {
           updated.name = name;
-          updated.contactNumber = parseInt(phone);
+          updated.contactNumber = Number(phone);
           updated.city = city;
           updated.hobbies = profession;
           updated.availableDays = availablityPrefrences.toString();
@@ -85,9 +85,9 @@ const PersonalInformation = () => {
       <View className="flex flex-row justify-end  mt-4 ">
         <Pressable
           onPress={enableFields}
-          className="flex bg-black flex-row py-2 px-10 rounded-md  mr-4 items-center"
+          className="flex bg-transparent border-2 border-black flex-row py-2 px-10 rounded-md  mr-4 items-center"
         >
-          <Text className="text-white font-semibold text-xs">Edit</Text>
+          <Text className="text-black font-semibold text-xs">Edit</Text>
         </Pressable>
         <Pressable
           onPress={saveData}
