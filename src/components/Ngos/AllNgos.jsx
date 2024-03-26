@@ -15,23 +15,7 @@ const AllNgos = () => {
     currentUserNgos,
     getNgosOfCurrentVolunteer,
   } = useUserData();
-  const hardCodedNgos = [
-    {
-      ngoName: "Eidhi ",
-      location: "Taxila",
-      connected: true,
-    },
-    {
-      nagoName: "The Hope",
-      location: "Rawalpindi",
-      connected: false,
-    },
-    {
-      nagoName: "SOS",
-      location: "Rawalpindi",
-      connected: true,
-    },
-  ];
+
   const [isExploringNgosTab, setIsExploringNgosTab] = useState(true);
   const [filteredNgos, setFilteredNgos] = useState([unfollowedNgos]);
 

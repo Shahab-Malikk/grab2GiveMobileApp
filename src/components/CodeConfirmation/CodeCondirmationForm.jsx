@@ -9,6 +9,7 @@ import {
 import { confirmSignUp, getCurrentUser } from "aws-amplify/auth";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import showToast from "../utils/Toast";
 
 const CodeCondirmationForm = () => {
   const [value, setValue] = useState("");
@@ -25,6 +26,11 @@ const CodeCondirmationForm = () => {
       console.log(username);
       console.log(value);
 
+      if (value.length < 6) {
+        showToast("Please enter a valid code", "red");
+        return;
+      }
+
       const { isSignUpComplete, nextStep } = await confirmSignUp({
         username,
         confirmationCode: value,
@@ -32,6 +38,7 @@ const CodeCondirmationForm = () => {
       console.log(isSignUpComplete, nextStep);
       navigation.navigate("Login");
     } catch (e) {
+      showToast("Something went wrong", "red");
       console.log(e);
     }
   };
